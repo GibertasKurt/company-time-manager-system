@@ -9,3 +9,21 @@
     The user's current session should be saved in local storage.
 
 */
+let isClockedIn = false;
+const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+    if (isClockedIn) {
+        alert("You are already clocked in.");
+        return;
+    } else {
+        isClockedIn = true;
+        alert("You have clocked in successfully.");
+    }
+});
+const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You are already clocked out.");
+        return;
+    }
+    isClockedIn = false;
+    alert("You have clocked out successfully.");
+});
