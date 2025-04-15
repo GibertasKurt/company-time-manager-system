@@ -1,23 +1,27 @@
 const inputUsername = document.getElementById("username")
 const inputPassword = document.getElementById("password")
-const btnLogin = document.getElementById("btnLogin")
+let username;
+let password;
 const users = [
     {
+        department: "Developer",
         username: "kurtgibertas",
         password: "admin123"
     },
     {
+        department: "Developer",
         username: "josetapic",
         password: "admin123"
     },
     {
+        department: "Developer",
         username: "arianecerezo",
         password: "admin123"
     }
 ]
 const login = () => {
-    const username = inputUsername.value
-    const password = inputPassword.value
+    username = inputUsername.value
+    password = inputPassword.value
 
     const user = users.find(user => user.username === username && user.password === password)
     if (user) {
@@ -28,4 +32,4 @@ const login = () => {
         alert("Invalid username or password")
     }
 }
-btnLogin.addEventListener("click", login)
+const btnLogin = document.getElementById("btnLogin").addEventListener("click", login)

@@ -38,9 +38,9 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
         return;
     }
     isClockedIn = false;
-    const currentTime = new Date();
     alert("You have clocked out successfully.\n" + new Date().toLocaleString());
     // Append new clock out here
+        const currentTime = new Date();
         const cellClockOut = newRow.insertCell(3);
         cellClockOut.innerHTML = currentTime.toLocaleString();
 });
