@@ -23,7 +23,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         const currentTime = new Date();
         alert("You have clocked in successfully.\n" + currentTime.toLocaleString());
         // Append new clock in here
-        
         const cellDepartment = newRow.insertCell(0);
         cellDepartment.innerHTML = "Department Name";
         const cellName = newRow.insertCell(1);
