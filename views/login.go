@@ -22,13 +22,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 		session := uadmin.Login2FA(r, username, password, "")
 
-		uadmin.Trail(uadmin.DEBUG, "Username: %s", username)
-		uadmin.Trail(uadmin.DEBUG, "Password: %s", password)
-		uadmin.Trail(uadmin.DEBUG, "Session: %s", session)
-
 		if session == nil || !session.User.Active {
 			c.ErrExists = true
-			c.Err = "Invalid username or password"
+			c.Err = "Invalid username or password or user is inactive"
 		}
 		cookie, _ := r.Cookie("session")
 		if cookie == nil {
@@ -37,8 +33,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		cookie.Name = "session"
 		cookie.Value = session.Key
 		cookie.Path = "/"
-		// cookie.SameSite = session.SameSiteStrictMode
+		cookie.SameSite = http.SameSiteStrictMode
 		http.SetCookie(w, cookie)
 
+		uadmin.Trail(uadmin.DEBUG, "Username: %s", username)
+		uadmin.Trail(uadmin.DEBUG, "Password: %s", password)
 	}
 }
