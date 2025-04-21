@@ -17,6 +17,6 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	LoginHandler(w, r)
+	HomeHandler(w, r, session)
 	return
 }
