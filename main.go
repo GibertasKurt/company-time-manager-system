@@ -13,7 +13,7 @@ func main() {
 		models.Departments{},
 	)
 	uadmin.SiteName = "Company Time Management System"
-	uadmin.StartServer()
 	http.HandleFunc("/login/", uadmin.Handler(views.MainHandler))
 
+	uadmin.StartServer()
 }

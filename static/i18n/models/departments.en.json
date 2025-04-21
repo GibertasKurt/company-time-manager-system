@@ -15,6 +15,13 @@
       "err_msg": {},
       "Choices": {}
     },
+    "EmployeesList": {
+      "display_name": "Employees List",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "ID": {
       "display_name": "ID",
       "help": "",

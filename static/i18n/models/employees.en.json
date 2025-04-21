@@ -1,8 +1,57 @@
 {
   "display_name": "Employees",
   "fields": {
+    "Address": {
+      "display_name": "Address",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "City": {
+      "display_name": "City",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "Country": {
+      "display_name": "Country",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "Department": {
+      "display_name": "Department",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "Departments": {
       "display_name": "Departments",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "DepartmentsID": {
+      "display_name": "Departments ID",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "Email": {
+      "display_name": "Email",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "FirstName": {
+      "display_name": "First Name",
       "help": "",
       "pattern_msg": "",
       "err_msg": {},
@@ -15,6 +64,13 @@
       "err_msg": {},
       "Choices": {}
     },
+    "LastName": {
+      "display_name": "Last Name",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "Password": {
       "display_name": "Password",
       "help": "",
@@ -22,8 +78,43 @@
       "err_msg": {},
       "Choices": {}
     },
+    "Phone": {
+      "display_name": "Phone",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "State": {
+      "display_name": "State",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "User": {
+      "display_name": "User",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "UserID": {
+      "display_name": "User ID",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "Username": {
       "display_name": "Username",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "Zip": {
+      "display_name": "Zip",
       "help": "",
       "pattern_msg": "",
       "err_msg": {},
