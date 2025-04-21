@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/uadmin/uadmin"
@@ -22,7 +21,7 @@ func (i *Departments) Save() {
 		employeesList = append(employeesList, i.Employees[c].Username)
 	}
 	joinList := strings.Join(employeesList, ", ")
-	fmt.Println("EmployeesList: ", joinList)
+	// fmt.Println("EmployeesList: ", joinList)
 	i.EmployeesList = joinList
 	uadmin.Save(i)
 }

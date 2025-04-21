@@ -16,23 +16,29 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	c := Context{}
 	uadmin.RenderHTML(w, r, "templates/login.html", c)
-	if r.Method == http.MethodPost {
-		c.Username = r.FormValue("username")
-		c.Username = strings.TrimSpace(strings.ToLower(c.Username))
-		c.Password = r.FormValue("password")
-		session := uadmin.Login2FA(r, c.Username, c.Password, "")
+	if r.Method == "POST" {
+		username := r.FormValue("username")
+		username = strings.TrimSpace(strings.ToLower(username))
+		password := r.FormValue("password")
+		session := uadmin.Login2FA(r, username, password, "")
+
+		uadmin.Trail(uadmin.DEBUG, "Username: %s", username)
+		uadmin.Trail(uadmin.DEBUG, "Password: %s", password)
+		uadmin.Trail(uadmin.DEBUG, "Session: %s", session)
+
 		if session == nil || !session.User.Active {
 			c.ErrExists = true
-			c.Err = "Invalid username or password or inactive user"
-		} else {
-			c.Err = "Username and password is invalid"
+			c.Err = "Invalid username or password"
 		}
-		c.Err = "Invalid username or password"
-		c.ErrExists = true
-		// Testing for inputs
-		uadmin.Trail(uadmin.DEBUG, "Username: %s", c.Username)
-		uadmin.Trail(uadmin.DEBUG, "Password: %s", c.Password)
-		uadmin.Trail(uadmin.DEBUG, "Session: %s", session)
-		return
+		cookie, _ := r.Cookie("session")
+		if cookie == nil {
+			cookie = &http.Cookie{}
+		}
+		cookie.Name = "session"
+		cookie.Value = session.Key
+		cookie.Path = "/"
+		// cookie.SameSite = session.SameSiteStrictMode
+		http.SetCookie(w, cookie)
+
 	}
 }
