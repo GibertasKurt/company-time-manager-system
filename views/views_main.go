@@ -2,21 +2,17 @@ package views
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/uadmin/uadmin"
 )
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
-	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/login/")
-	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/")
 
 	session := uadmin.IsAuthenticated(r)
 	if session == nil {
-		LoginHandler(w, r)
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
 	}
 
-	HomeHandler(w, r, session)
-	return
+	uadmin.RenderHTML(w, r, "templates/home.html", nil)
 }

@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content=".">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Company Time Manager</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- <link rel="stylesheet" href="styleslogin.css"> -->
 </head>
+<style>
+    table, th, td {
+        border:1px solid black;
+    }
+    #header {
+        justify-content: space-between;
+        flex-flow: row wrap-reverse;
+        align-content: space-between;
+    }
+</style>
 <body>
     <main>
-        <h1>Login as {{.User}} ,Welcome to Company Time Manager!</h1>
+        <div id="header">
+            <div>
+                <h3>Login as {{.User}},Welcome to Company Time Manager!</h3>
+            </div>
+            <div>
+                <a href="/login/" type="button">Logout</a>
+            </div>
+        </div>
+        
         <table id="logTable" style="width:100%">
             <tr>
                 <th>Department</th>
@@ -30,11 +48,11 @@
                 <td>6:01 PM</td>
             </tr> -->
             </table>
+        <div>
+            <button id="btnClockIn">Clock In</button>
+            <button id="btnClockOut">Clock Out</button>
+        </div>
     </main>
-    <div>
-        <button id="btnClockIn">Clock In</button>
-        <button id="btnClockOut">Clock Out</button>
-    </div>
 
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
