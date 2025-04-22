@@ -4,61 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/homestyles.css">
     <title>Company Time Manager</title>
-    <!-- <link rel="stylesheet" href="styleslogin.css"> -->
 </head>
-<style>
-    table, th, td {
-        border:1px solid black;
-        text-align: center;
-    }
-    #header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    #logTable {
-        border: 1px solid #1C6EA4;
-        border-collapse: collapse;
-    }
-    #logTable th {
-        background:linear-gradient(to top, #378de5 5%, #79bbff 100%);
-        color:#ffffff;
-        font-family:Arial;
-    }
-    #logTable tr:nth-child(odd) {
-        background: #D0E4F5;
-    }
-    button {
-	box-shadow: 3px 4px 0px 0px #1564ad;
-	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-	background-color:#79bbff;
-	border-radius:5px;
-	border:1px solid #337bc4;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:10px 20px;
-	text-decoration:none;
-	text-shadow:0px 2px 10px #528ecc;
-    }
-    button:hover {
-        background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
-        background-color:#378de5;
-    }
-    button:active {
-        position:relative;
-        top:1px;
-    }
-</style>
 <body>
     <main>
         <div id="header">
-            <h3>Login as {{.Username}},Welcome to Company Time Manager!</h3>
+            <h3>Logged in as {{.Username}}!</h3>
             <a href="/login/" type="button">Logout</a>
         </div>
         
@@ -94,6 +46,6 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
-    <!-- <script src="script.js"></script> -->
 </body>
 </html>
+

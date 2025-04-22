@@ -12,7 +12,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	clockhistory := []models.ClockHistory{}
 	uadmin.All(&clockhistory)
 
-	//!
 	for i := range clockhistory {
 		uadmin.Preload(&clockhistory[i], "Departments")
 	}
@@ -23,10 +22,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	c := map[string]interface{}{
 		"ClockHistories": clockhistory,
-		"Username":       session.User.Username,
+		"Username":       session.User.FirstName + " " + session.User.LastName,
+		// "Username":       session.User.Username,
 	}
-	// c.User = session.User.FirstName + " " + session.User.LastName
-	// c.User = session.User.Username
 	uadmin.RenderHTML(w, r, "templates/home.html", c)
-
 }
