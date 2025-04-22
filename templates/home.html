@@ -5,27 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Company Time Manager</title>
-    <!-- <link rel="stylesheet" href="styleslogin.css"> -->
 </head>
 <style>
     table, th, td {
         border:1px solid black;
+        text-align: left;
     }
     #header {
+        display: flex;
         justify-content: space-between;
-        flex-flow: row wrap-reverse;
-        align-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
     }
 </style>
 <body>
     <main>
         <div id="header">
-            <div>
-                <h3>Login as {{.User}},Welcome to Company Time Manager!</h3>
-            </div>
-            <div>
-                <a href="/login/" type="button">Logout</a>
-            </div>
+            <h3>Login as {{.User}},Welcome to Company Time Manager!</h3>
+            <a href="/login/" type="button">Logout</a>
+        </div>
+        
+        <div id="filter">
+            <input type="text" id="search" placeholder="Filter by name or department">
+            <button id="filterBtn">Fitler</button>
         </div>
         
         <table id="logTable" style="width:100%">
@@ -35,19 +37,8 @@
                 <th>Clock In</th>
                 <th>Clock Out</th>
             </tr>
-            <!-- <tr>
-                <td>Test Department</td>
-                <td>Kurt Riven T. Gibertas</td>
-                <td>8:30 AM</td>
-                <td>5:55 PM</td>
-            </tr>
-            <tr>
-                <td>Test Department</td>
-                <td>Jose Tapic</td>
-                <td>8:55 AM</td>
-                <td>6:01 PM</td>
-            </tr> -->
-            </table>
+        </table>
+
         <div>
             <button id="btnClockIn">Clock In</button>
             <button id="btnClockOut">Clock Out</button>
@@ -57,6 +48,56 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
-    <!-- <script src="script.js"></script> -->
+    <script>
+        const logTable = document.getElementById("logTable");
+        let isClockedIn = false;
+        let currentRow = null;
+
+        const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+            if (isClockedIn) {
+                alert("You are already clocked in.");
+                return;
+            }
+            isClockedIn = true;
+            const currentTime = new Date();
+            alert("You have clocked in successfully at " + currentTime.toLocaleString());
+
+            currentRow = logTable.insertRow();
+            currentRow.insertCell(0).innerHTML = "Department Name"; // Replace with actual department
+            currentRow.insertCell(1).innerHTML = "Employee Name"; // Replace with actual employee name
+            currentRow.insertCell(2).innerHTML = currentTime.toLocaleString();
+        });
+
+        const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
+            if (!isClockedIn) {
+                alert("You are already clocked out.");
+                return;
+            }
+            isClockedIn = false;
+            const currentTime = new Date();
+            alert("You have clocked out successfully at " + currentTime.toLocaleString());
+
+            if (currentRow) {
+                currentRow.insertCell(3).innerHTML = currentTime.toLocaleString();
+            }
+        });
+
+        document.getElementById("filterBtn").addEventListener("click", () => {
+            const filterValue = document.getElementById("search").value.toLowerCase();
+            const rows = logTable.getElementsByTagName("tr");
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                let rowVisible = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerHTML.toLowerCase().includes(filterValue)) {
+                        rowVisible = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = rowVisible ? "" : "none";
+            }
+        });
+    </script>
 </body>
 </html>
+
