@@ -3,21 +3,30 @@ package views
 import (
 	"net/http"
 
+	"github.com/kurt/company-time-manager-system/models"
 	"github.com/uadmin/uadmin"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	type Context struct {
-		User string
+
+	clockhistory := []models.ClockHistory{}
+	uadmin.All(&clockhistory)
+
+	//!
+	for i := range clockhistory {
+		uadmin.Preload(&clockhistory[i], "Departments")
 	}
-	c := Context{}
 	session := uadmin.IsAuthenticated(r)
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
 	}
-	c.User = session.User.FirstName + " " + session.User.LastName
+	c := map[string]interface{}{
+		"ClockHistories": clockhistory,
+		"Username":       session.User.Username,
+	}
+	// c.User = session.User.FirstName + " " + session.User.LastName
 	// c.User = session.User.Username
 	uadmin.RenderHTML(w, r, "templates/home.html", c)
-	return
+
 }

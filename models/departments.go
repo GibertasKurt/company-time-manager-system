@@ -15,6 +15,10 @@ type Departments struct {
 	EmployeesID   uint
 }
 
+func (d *Departments) String() string {
+	return d.Name
+}
+
 func (i *Departments) Save() {
 	employeesList := []string{}
 	for c := range i.Employees {

@@ -11,9 +11,11 @@ import (
 func main() {
 	uadmin.Register(
 		models.Departments{},
+		models.ClockHistory{},
 	)
 	uadmin.SiteName = "Company Time Management System"
 	http.HandleFunc("/login/", uadmin.Handler(views.LoginHandler))
 	http.HandleFunc("/home/", uadmin.Handler(views.HomeHandler))
+	// http.HandleFunc("/clockhistory/", controllers.ClockHistoryHandler)
 	uadmin.StartServer()
 }

@@ -10,43 +10,80 @@
 <style>
     table, th, td {
         border:1px solid black;
+        text-align: center;
     }
     #header {
+        display: flex;
         justify-content: space-between;
-        flex-flow: row wrap-reverse;
-        align-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    #logTable {
+        border: 1px solid #1C6EA4;
+        border-collapse: collapse;
+    }
+    #logTable th {
+        background:linear-gradient(to top, #378de5 5%, #79bbff 100%);
+        color:#ffffff;
+        font-family:Arial;
+    }
+    #logTable tr:nth-child(odd) {
+        background: #D0E4F5;
+    }
+    button {
+	box-shadow: 3px 4px 0px 0px #1564ad;
+	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+	background-color:#79bbff;
+	border-radius:5px;
+	border:1px solid #337bc4;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+	text-shadow:0px 2px 10px #528ecc;
+    }
+    button:hover {
+        background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+        background-color:#378de5;
+    }
+    button:active {
+        position:relative;
+        top:1px;
     }
 </style>
 <body>
     <main>
         <div id="header">
-            <div>
-                <h3>Login as {{.User}},Welcome to Company Time Manager!</h3>
-            </div>
-            <div>
-                <a href="/login/" type="button">Logout</a>
-            </div>
+            <h3>Login as {{.Username}},Welcome to Company Time Manager!</h3>
+            <a href="/login/" type="button">Logout</a>
         </div>
         
         <table id="logTable" style="width:100%">
             <tr>
-                <th>Department</th>
-                <th>Name</th>
                 <th>Clock In</th>
                 <th>Clock Out</th>
+                <th>Break Start</th>
+                <th>Break End</th>
+                <th>Total Hours</th>
+                <th>Department</th>
+                <th>Employee</th>
             </tr>
-            <!-- <tr>
-                <td>Test Department</td>
-                <td>Kurt Riven T. Gibertas</td>
-                <td>8:30 AM</td>
-                <td>5:55 PM</td>
-            </tr>
+            {{range .ClockHistories}}
             <tr>
-                <td>Test Department</td>
-                <td>Jose Tapic</td>
-                <td>8:55 AM</td>
-                <td>6:01 PM</td>
-            </tr> -->
+                <td>{{.ClockIn}}</td>
+                <td>{{.ClockOut}}</td>
+                <td>{{.BreakStart}}</td>
+                <td>{{.BreakEnd}}</td>
+                <td>{{.TotalHours}}</td>
+                <td>{{.Departments.Name}}</td>
+                <td>{{.Employee}}</td>
+            </tr>
+            {{end}}
+  
             </table>
         <div>
             <button id="btnClockIn">Clock In</button>
