@@ -16,7 +16,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		Password    string
 	}
 	c := Context{}
-
+	session := uadmin.IsAuthenticated(r)
+	if session != nil {
+		http.Redirect(w, r, "/home/", http.StatusSeeOther)
+	}
 	if r.Method == "POST" {
 		username := r.PostFormValue("username")
 		username = strings.TrimSpace(strings.ToLower(username))
@@ -24,10 +27,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 		session, _ := uadmin.Login(r, username, password)
 		uadmin.Trail(uadmin.DEBUG, "Login: %s", username)
-		if session == nil || !session.User.Active {
-			c.ErrExists = true
-			c.Err = "Invalid username/password or inactive user"
-		} else {
+		if session != nil {
 			cookie, _ := r.Cookie("session")
 			if cookie == nil {
 				cookie = &http.Cookie{}
@@ -39,6 +39,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, cookie)
 			uadmin.Trail(uadmin.DEBUG, "Your login credentials are valid.")
 			http.Redirect(w, r, "/home/", http.StatusSeeOther)
+		} else {
+			c.ErrExists = true
+			c.Err = "Invalid username/password or inactive user"
 		}
 	}
 

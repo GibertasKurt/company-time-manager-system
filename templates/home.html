@@ -11,34 +11,36 @@
     <main>
         <div id="header">
             <h3>Logged in as {{.Username}}!</h3>
-            <a href="/login/" type="button">Logout</a>
+            <a href="/logout/" type="button">Logout</a>
         </div>
         
         <table id="logTable" style="width:100%">
             <tr>
-                <th>Clock In</th>
-                <th>Clock Out</th>
-                <th>Break Start</th>
-                <th>Break End</th>
-                <th>Total Hours</th>
                 <th>Department</th>
                 <th>Employee</th>
+                <th>Clock In</th>
+                <th>Break Start</th>
+                <th>Break End</th>
+                <th>Clock Out</th>
+                <th>Total Hours</th>
             </tr>
             {{range .ClockHistories}}
             <tr>
-                <td>{{.ClockIn}}</td>
-                <td>{{.ClockOut}}</td>
+                <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
+                <td>{{.Employee.Name}}</td>
+                <td>{{.ClockIn}} </td>
                 <td>{{.BreakStart}}</td>
                 <td>{{.BreakEnd}}</td>
+                <td>{{.ClockOut}}</td>
                 <td>{{.TotalHours}}</td>
-                <td>{{.Departments.Name}}</td>
-                <td>{{.Employee}}</td>
             </tr>
             {{end}}
   
             </table>
         <div>
             <button id="btnClockIn">Clock In</button>
+            <button id="btnbrkstrt">Break Start</button>
+            <button id="btnbrkend">Break End</button>
             <button id="btnClockOut">Clock Out</button>
         </div>
     </main>
@@ -46,6 +48,148 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
+    <script>
+const logTable = document.getElementById("logTable");
+let isClockedIn = false;
+let currentRow = null;
+let isBreakStarted = false;
+let clockInTime, breakStartTime, breakEndTime;
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+    if (isClockedIn) {
+        alert("You are already clocked in.");
+        return;
+    }
+    isClockedIn = true;
+    clockInTime = new Date();
+    alert("You have clocked in successfully at " + clockInTime.toLocaleString());
+
+    
+    currentRow = logTable.insertRow();
+    departmentName = document.getElementById("departmentName"); 
+    console.log("Department Name: ", departmentName.getAttribute("data-value"));   
+    currentRow.insertCell(0).innerHTML = departmentName.innerHTML; 
+    currentRow.insertCell(1).innerHTML =  `{{.Username}}`;
+    currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
+
+        const logData = {
+        // department_id: departmentName.getAttribute("data-value"),
+        // username: currentRow.cells[1].innerHTML,
+        // clock_in: currentRow.cells[2].innerHTML,
+        // break_start: currentRow.cells[3]?.innerHTML || null,
+        // break_end: currentRow.cells[4]?.innerHTML || null,
+        // clock_out: currentRow.cells[5]?.innerHTML || null,
+        // total_hours: currentRow.cells[6]?.innerHTML ,
+    };
+
+    const url = `/admin/api/d/clockhistory/add/?_total_hours=123`
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookie("session"),
+        },
+        // body: JSON.stringify(logData),
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log("logData: ", JSON.stringify(logData))   
+        console.log("response: ", response)
+        if (response.status === "ok") {
+            console.log("Data successfully sent to uadmin:", response);
+        } else {
+            alert("Error sending data to uadmin.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while sending data to uadmin.");
+    });
+
+
+});
+
+
+const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You need to clock in first.");
+        return;
+    }
+    breakStartTime = new Date();
+    alert("Break started at " + breakStartTime.toLocaleString());
+    isBreakStarted = true;
+
+    if (currentRow) {
+        currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
+    }
+});
+
+const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You need to clock in first.");
+        return;
+    }
+    if (!isBreakStarted) {
+        alert("You need to start a break first.");
+        return;
+    }
+    breakEndTime = new Date();
+    alert("Break ended at " + breakEndTime.toLocaleString());
+
+    if (currentRow) {
+        currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
+    }
+});
+
+const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You are already clocked out.");
+        return;
+    }
+    if (!isBreakStarted) {
+        alert("You need to start a break first.");
+        return;
+    }
+    if (!breakEndTime) {
+        alert("You need to end the break first.");
+        return;
+    }
+    
+    isClockedIn = false;
+    const clockOutTime = new Date();
+    alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
+
+    if (currentRow) {
+        currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
+
+        const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
+        currentRow.insertCell(6).innerHTML = totalHours.toFixed(2);
+    }
+});
+
+// document.getElementById("filterBtn").addEventListener("click", () => {
+//     const filterValue = document.getElementById("search").value.toLowerCase();
+//     const rows = logTable.getElementsByTagName("tr");
+//     for (let i = 1; i < rows.length; i++) {
+//         const cells = rows[i].getElementsByTagName("td");
+//         let rowVisible = false;
+//         for (let j = 0; j < cells.length; j++) {
+//             if (cells[j].innerHTML.toLowerCase().includes(filterValue)) {
+//                 rowVisible = true;
+//                 break;
+//             }
+//         }
+//         rows[i].style.display = rowVisible ? "" : "none";
+//     }
+// });
+
+    </script>
 </body>
 </html>
 

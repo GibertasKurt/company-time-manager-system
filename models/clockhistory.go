@@ -8,17 +8,28 @@ import (
 
 type ClockHistory struct {
 	uadmin.Model
-	ClockIn       time.Time
-	ClockOut      time.Time
-	BreakStart    time.Time
-	BreakEnd      time.Time
-	TotalHours    float64
-	DepartmentsID uint
-	Departments   Departments
-	EmployeeID    uint
-	Employee      string
+	Employee   Employee
+	EmployeeID uint
+	ClockIn    time.Time
+	ClockOut   time.Time
+	BreakStart time.Time
+	BreakEnd   time.Time
+	TotalHours float64
 }
 
 func (c *ClockHistory) String() string {
-	return c.Employee
+	uadmin.Preload(c, "Employee")
+	return c.Employee.Name
+}
+
+func (c *ClockHistory) Save() {
+	totalWork := c.ClockOut.Sub(c.ClockIn)
+
+	breakDuration := c.BreakEnd.Sub(c.BreakStart)
+
+	netWorkDuration := totalWork - breakDuration
+
+	c.TotalHours = netWorkDuration.Hours()
+
+	uadmin.Save(c)
 }

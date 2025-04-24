@@ -1,28 +1,53 @@
 package views
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/kurt/company-time-manager-system/models"
 	"github.com/uadmin/uadmin"
 )
 
+func formatTime(t time.Time) string {
+	return t.Format("15:04") // 24-hour format
+}
+
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	clockhistory := []models.ClockHistory{}
-	uadmin.All(&clockhistory)
-
-	for i := range clockhistory {
-		uadmin.Preload(&clockhistory[i], "Departments")
-	}
+	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
+	uadmin.Get(&employee, "user_id = ?", session.UserID)
+	if employee.ID == 0 {
+		uadmin.All(&clockhistory)
+	} else {
+		uadmin.Filter(&clockhistory, "employee_id = ?", employee.ID)
+	}
+	// uadmin.Trail(uadmin.DEBUG, "len :", len(clockhistory))
+	// uadmin.Trail(uadmin.DEBUG, session.UserID)
+	// uadmin.Trail(uadmin.DEBUG, "session: "+session.User.FirstName+" "+session.User.LastName)
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
 	}
+	isAdmin := session.User.Admin
+
+	for i := range clockhistory {
+		uadmin.Preload(&clockhistory[i], "Employee")
+		uadmin.Preload(&clockhistory[i].Employee, "Departments")
+	}
+
+	fmt.Println("clockhistory: ", clockhistory)
 	c := map[string]interface{}{
+
+		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
+		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
+
+		// "Department":     session.User,
+		// "Employee": session.
 		// "Username":       session.User.Username,
 	}
 	uadmin.RenderHTML(w, r, "templates/home.html", c)

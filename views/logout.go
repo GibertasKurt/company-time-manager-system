@@ -6,7 +6,7 @@ import (
 	"github.com/uadmin/uadmin"
 )
 
-func LogoutHandler(w http.ResponseWriter, r *http.Request, session *uadmin.Session) {
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	uadmin.Logout(r)
 	for _, cookie := range r.Cookies() {
 		c := &http.Cookie{

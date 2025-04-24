@@ -50,6 +50,20 @@
       "err_msg": {},
       "Choices": {}
     },
+    "EmployeeDepartment": {
+      "display_name": "Employee Department",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "EmployeeeDepartmentID": {
+      "display_name": "Employeee Department ID",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "ID": {
       "display_name": "ID",
       "help": "",
