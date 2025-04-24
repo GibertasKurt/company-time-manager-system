@@ -79,14 +79,14 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
 
         const logData = {
-        // department_id: departmentName.getAttribute("data-value"),
-        // username: currentRow.cells[1].innerHTML,
-        // clock_in: currentRow.cells[2].innerHTML,
-        // break_start: currentRow.cells[3]?.innerHTML || null,
-        // break_end: currentRow.cells[4]?.innerHTML || null,
-        // clock_out: currentRow.cells[5]?.innerHTML || null,
-        // total_hours: currentRow.cells[6]?.innerHTML ,
-    };
+            // department_id: departmentName.getAttribute("data-value"),
+            // username: currentRow.cells[1].innerHTML,
+            // clock_in: currentRow.cells[2].innerHTML,
+            // break_start: currentRow.cells[3]?.innerHTML || null,
+            // break_end: currentRow.cells[4]?.innerHTML || null,
+            // clock_out: currentRow.cells[5]?.innerHTML || null,
+            // total_hours: currentRow.cells[6]?.innerHTML ,
+        };
 
     const url = `/admin/api/d/clockhistory/add/?_total_hours=123`
     fetch(url, {
