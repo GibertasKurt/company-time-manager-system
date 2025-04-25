@@ -85,9 +85,12 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         break_start: currentRow.cells[3]?.innerHTML || null,
         break_end: currentRow.cells[4]?.innerHTML || null,
         clock_out: currentRow.cells[5]?.innerHTML || null,
-        total_hours: currentRow.cells[6]?.innerHTML ,
+        total_hours: currentRow.cells[6]?.innerHTML || null,
     };
 
+    // const url = `/admin/api/d/clockhistory/add/?_department_id=${logData.department_id}&_username=${logData.username}&_clock_in=${logData.clock_in}&_break_start=${logData.break_start}&_break_end=${logData.break_end}&_clock_out=${logData.clock_out}&_total_hours=${logData.total_hours}&x-csrf-token=${getCookie("session")}`;
+    // const url = `/admin/api/d/clockhistory/add/?_...&x-csrf-token=${getCookie("session")}`
+    // const url = `/admin/api/d/clockhistory/add/?_total_hours=${logData.total_hours}&x-csrf-token=${getCookie("session")}`
     const url = `/admin/api/d/clockhistory/add/`
     fetch(url, {
         method: "POST",
@@ -111,7 +114,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         console.error("Error:", error);
         alert("An error occurred while sending data to uadmin.");
     });
-
 });
 
 
@@ -126,6 +128,32 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
 
     if (currentRow) {
         currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
+
+        //// Break start time logs to uadmin database
+        // const logData = {
+        //     break_start: breakStartTime.toLocaleString(),
+        // };
+        // const url = `/admin/api/d/clockhistory/update/`; // Update this URL as needed
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "X-CSRF-TOKEN": getCookie("session"),
+        //     },
+        //     body: JSON.stringify(logData),
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.status === "ok") {
+        //         console.log("Break start time successfully sent to uadmin:", response);
+        //     } else {
+        //         alert("Error sending break start time to uadmin.");
+        //     }
+        // })
+        // .catch(error => {
+        //     console.error("Error:", error);
+        //     alert("An error occurred while sending break start time to uadmin.");
+        // });
     }
 });
 
@@ -143,6 +171,32 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
 
     if (currentRow) {
         currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
+        ////// Break end time logs to uadmin database
+        // const logData = {
+        //     break_end: breakEndTime.toLocaleString(),
+        // };
+        // // Send updated log data to the server
+        // const url = `/admin/api/d/clockhistory/update/`; // Update this URL as needed
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "X-CSRF-TOKEN": getCookie("session"),
+        //     },
+        //     body: JSON.stringify(logData),
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.status === "ok") {
+        //         console.log("Break end time successfully sent to uadmin:", response);
+        //     } else {
+        //         alert("Error sending break end time to uadmin.");
+        //     }
+        // })
+        // .catch(error => {
+        //     console.error("Error:", error);
+        //     alert("An error occurred while sending break end time to uadmin.");
+        // });
     }
 });
 
@@ -169,6 +223,31 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
 
         const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
         currentRow.insertCell(6).innerHTML = totalHours.toFixed(2);
+        // const logData = {
+        //     clock_out: clockOutTime.toLocaleString(),
+        //     total_hours: totalHours.toFixed(2),
+        // };
+        // const url = `/admin/api/d/clockhistory/update/`; // Update this URL as needed
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "X-CSRF-TOKEN": getCookie("session"),
+        //     },
+        //     body: JSON.stringify(logData),
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.status === "ok") {
+        //         console.log("Clock out time successfully sent to uadmin:", response);
+        //     } else {
+        //         alert("Error sending clock out time to uadmin.");
+        //     }
+        // })
+        // .catch(error => {
+        //     console.error("Error:", error);
+        //     alert("An error occurred while sending clock out time to uadmin.");
+        // });
     }
 });
 
@@ -187,7 +266,6 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
 //         rows[i].style.display = rowVisible ? "" : "none";
 //     }
 // });
-
     </script>
 </body>
 </html>
