@@ -14,7 +14,7 @@ type ClockHistory struct {
 	ClockOut   time.Time
 	BreakStart time.Time
 	BreakEnd   time.Time
-	TotalHours float64
+	TotalHours float64 `uadmin:"readonly"`
 }
 
 func (c *ClockHistory) String() string {

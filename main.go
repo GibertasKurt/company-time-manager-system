@@ -9,6 +9,14 @@ import (
 )
 
 func main() {
+	uadmin.Database = &uadmin.DBSettings{
+		Type:     "mysql",
+		Name:     "company_time_manager_system",
+		User:     "root",
+		Password: "root",
+		Host:     "localhost",
+		Port:     3306,
+	}
 	uadmin.Register(
 		models.Departments{},
 		models.ClockHistory{},
