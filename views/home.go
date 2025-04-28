@@ -19,14 +19,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
-	if employee.ID == 0 {
+	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)
 	} else {
 		uadmin.Filter(&clockhistory, "employee_id = ?", employee.ID)
 	}
-	// uadmin.Trail(uadmin.DEBUG, "len :", len(clockhistory))
-	// uadmin.Trail(uadmin.DEBUG, session.UserID)
-	// uadmin.Trail(uadmin.DEBUG, "session: "+session.User.FirstName+" "+session.User.LastName)
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return nil
@@ -41,15 +38,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	fmt.Println("clockhistory: ", clockhistory)
 	fmt.Println("empid: ", employee.ID)
 	c := map[string]interface{}{
-
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
 		"EmployeeID":     employee.ID,
-		// "Department":     session.User,
-		// "Employee": session.
-		// "Username":       session.User.Username,
 	}
 	return c
 }
