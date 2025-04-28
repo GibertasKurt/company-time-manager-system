@@ -92,11 +92,31 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     };
 
     // const url = `/admin/api/d/clockhistory/add/?_department_id=${logData.department_id}&_username=${logData.username}&_clock_in=${logData.clock_in}&_break_start=${logData.break_start}&_break_end=${logData.break_end}&_clock_out=${logData.clock_out}&_total_hours=${logData.total_hours}&x-csrf-token=${getCookie("session")}`;
-    // const url = `/admin/api/d/clockhistory/add/?_...&x-csrf-token=${getCookie("session")}`
     // const url = `/admin/api/d/clockhistory/add/?_total_hours=${logData.total_hours}&x-csrf-token=${getCookie("session")}`
     // const url = `/admin/api/d/clockhistory/add/`
-    const url = `/admin/api/d/clockhistory/add/?employee_id=${empid}&x-csrf-token=${getCookie("session")}`
+    const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
     fetch(url, {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": getCookie("session"),
+        },
+        body: JSON.stringify(logData),
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log("logData: ", JSON.stringify(logData))   
+        console.log("response: ", response)
+        if (response.status === "ok") {
+            console.log("Data successfully sent to uadmin:", response);
+        } else {
+            alert("Error sending data to uadmin.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while sending data to uadmin.");
+    });
+    fetch( `/admin/api/d/clockhistory/edit/${id}/?_clock_in=${clockInTime.toLocaleString()}&x-csrf-token=${getCookie("session")}`, {
         method: "POST",
         headers: {
             "X-CSRF-TOKEN": getCookie("session"),
