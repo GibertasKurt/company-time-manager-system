@@ -24,9 +24,9 @@ func main() {
 	)
 	uadmin.SiteName = "Company Time Management System"
 	uadmin.RootURL = "/admin/"
+	http.HandleFunc("/", uadmin.Handler(views.MainHandler))
 	http.HandleFunc("/login/", uadmin.Handler(views.LoginHandler))
 	http.HandleFunc("/logout/", uadmin.Handler(views.LogoutHandler))
-	http.HandleFunc("/home/", uadmin.Handler(views.HomeHandler))
 	// http.HandleFunc("/clockhistory/", controllers.ClockHistoryHandler)
 	uadmin.StartServer()
 }

@@ -13,7 +13,7 @@ func formatTime(t time.Time) string {
 	return t.Format("15:04") // 24-hour format
 }
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
+func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} {
 
 	clockhistory := []models.ClockHistory{}
 	employee := models.Employee{}
@@ -29,7 +29,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// uadmin.Trail(uadmin.DEBUG, "session: "+session.User.FirstName+" "+session.User.LastName)
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
-		return
+		return nil
 	}
 	isAdmin := session.User.Admin
 
@@ -39,16 +39,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("clockhistory: ", clockhistory)
+	fmt.Println("empid: ", employee.ID)
 	c := map[string]interface{}{
 
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
-
+		"EmployeeID":     employee.ID,
 		// "Department":     session.User,
 		// "Employee": session.
 		// "Username":       session.User.Username,
 	}
-	uadmin.RenderHTML(w, r, "templates/home.html", c)
+	return c
 }

@@ -8,17 +8,11 @@ import (
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	type Context struct {
-		Err         string
-		ErrExists   bool
-		OTPRequired bool
-		Username    string
-		Password    string
-	}
-	c := Context{}
+
+	c := map[string]interface{}{}
 	session := uadmin.IsAuthenticated(r)
 	if session != nil {
-		http.Redirect(w, r, "/home/", http.StatusSeeOther)
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
 	}
 	if r.Method == "POST" {
 		username := r.PostFormValue("username")
@@ -28,20 +22,15 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		session, _ := uadmin.Login(r, username, password)
 		uadmin.Trail(uadmin.DEBUG, "Login: %s", username)
 		if session != nil {
-			cookie, _ := r.Cookie("session")
-			if cookie == nil {
-				cookie = &http.Cookie{}
-			}
-			cookie.Name = "session"
-			cookie.Value = session.Key
-			cookie.Path = "/"
-			cookie.SameSite = http.SameSiteStrictMode
-			http.SetCookie(w, cookie)
-			uadmin.Trail(uadmin.DEBUG, "Your login credentials are valid.")
-			http.Redirect(w, r, "/home/", http.StatusSeeOther)
+			http.SetCookie(w, &http.Cookie{
+				Name:     "session",
+				Value:    session.Key,
+				Path:     "/",
+				SameSite: http.SameSiteStrictMode,
+			})
+			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		} else {
-			c.ErrExists = true
-			c.Err = "Invalid username/password or inactive user"
+			c["Err"] = "Invalid username or password"
 		}
 	}
 

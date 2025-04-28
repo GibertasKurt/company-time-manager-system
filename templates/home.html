@@ -49,6 +49,7 @@
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
     <script>
+        console.log("EmpID: ", `{{.EmployeeID}}`)  
 const logTable = document.getElementById("logTable");
 let isClockedIn = false;
 let currentRow = null;
@@ -77,15 +78,15 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     currentRow.insertCell(0).innerHTML = departmentName.innerHTML; 
     currentRow.insertCell(1).innerHTML =  `{{.Username}}`;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
-
     const logData = {
-        department_id: departmentName.getAttribute("data-value"),
-        username: currentRow.cells[1].innerHTML,
-        clock_in: currentRow.cells[2].innerHTML,
-        break_start: currentRow.cells[3]?.innerHTML || null,
-        break_end: currentRow.cells[4]?.innerHTML || null,
-        clock_out: currentRow.cells[5]?.innerHTML || null,
-        total_hours: currentRow.cells[6]?.innerHTML || null,
+        employee_id: `{{.EmployeeID}}`,
+        // department_id: departmentName.getAttribute("data-value"),
+        // username: currentRow.cells[1].innerHTML,
+        // clock_in: currentRow.cells[2].innerHTML,
+        // break_start: currentRow.cells[3]?.innerHTML || null,
+        // break_end: currentRow.cells[4]?.innerHTML || null,
+        // clock_out: currentRow.cells[5]?.innerHTML || null,
+        // total_hours: currentRow.cells[6]?.innerHTML || null,
     };
 
     // const url = `/admin/api/d/clockhistory/add/?_department_id=${logData.department_id}&_username=${logData.username}&_clock_in=${logData.clock_in}&_break_start=${logData.break_start}&_break_end=${logData.break_end}&_clock_out=${logData.clock_out}&_total_hours=${logData.total_hours}&x-csrf-token=${getCookie("session")}`;
