@@ -116,6 +116,7 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         console.error("Error:", error);
         alert("An error occurred while sending data to uadmin.");
     });
+    
     fetch( `/admin/api/d/clockhistory/edit/${id}/?_clock_in=${clockInTime.toLocaleString()}&x-csrf-token=${getCookie("session")}`, {
         method: "POST",
         headers: {

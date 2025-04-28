@@ -1,7 +1,6 @@
 package views
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -35,8 +34,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		uadmin.Preload(&clockhistory[i].Employee, "Departments")
 	}
 
-	fmt.Println("clockhistory: ", clockhistory)
-	fmt.Println("empid: ", employee.ID)
 	c := map[string]interface{}{
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
