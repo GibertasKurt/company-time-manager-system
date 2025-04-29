@@ -28,7 +28,8 @@ func MainHandler(w http.ResponseWriter, r *http.Request) { //needed prefix initi
 	//uadmin.Trail(uadmin.DEBUG, page)
 	c["Page"] = page
 	uadmin.Trail(uadmin.DEBUG, page)
-	Rendering(w, r, page, c)
+	uadmin.RenderHTML(w, r, fmt.Sprintf("./templates/%v.html", page), c)
+	// Rendering(w, r, page, c)
 
 }
 
