@@ -17,7 +17,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	clockhistory := []models.ClockHistory{}
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
-	// uadmin.Get(&employee, "user_id = ?", clockhistory.BreakStart)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)

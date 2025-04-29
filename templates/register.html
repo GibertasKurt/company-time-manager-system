@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/loginstyles.css">
+    <title>Company Time Manager - Register</title>
+</head>
+<body>
+    <main>
+        <div>
+            <form method="POST">
+                <input type="text" name="username" id="username" placeholder="Username" required />
+                <input type="password" name="password" id="password" placeholder="Password" required />
+                
+                <select name="cars" id="cars">
+                    <option value='{{ .Departments.ID }}'>{{ .Departments.Name }}</option>
+                </select>
+                
+                <button type="submit" id="btnRegister">Register</button>
+            </form>
+            <h3><b style="color:red">{{.Err}}</b></h3>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
+    </footer>
+</body>
+</html>

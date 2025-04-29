@@ -27,5 +27,6 @@ func main() {
 	http.HandleFunc("/", uadmin.Handler(views.MainHandler))
 	http.HandleFunc("/login/", uadmin.Handler(views.LoginHandler))
 	http.HandleFunc("/logout/", uadmin.Handler(views.LogoutHandler))
+	http.HandleFunc("/register/", uadmin.Handler(views.LogoutHandler))
 	uadmin.StartServer()
 }
