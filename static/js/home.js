@@ -1,0 +1,232 @@
+console.log("EmpID: ", `{{.EmployeeID}}`)
+console.log("currentID: ", `{{.ID}}`)
+const logTable = document.getElementById("logTable");
+let isClockedIn;
+
+    if (localStorage.getItem("recentlogin") == 0) {
+        isClockedIn = false;
+    } else {
+        isClockedIn = true;
+    }
+
+let currentRow = null;
+let isBreakStarted;
+let clockInTime, breakStartTime, breakEndTime;
+//// Important backend stuff
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+};
+console.log("login: {{.Recent}}")
+localStorage.setItem("recentlogin", "{{.Recent}}");
+//// Buttons
+const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+
+    if (isClockedIn) {
+        alert("You are already clocked in.");
+        return;
+    }
+    clockInTime = new Date();
+    alert("You have clocked in successfully at " + clockInTime.toLocaleString());
+
+    
+    currentRow = logTable.insertRow();
+    departmentName = document.getElementById("departmentName"); 
+    console.log("Department Name: ", departmentName.getAttribute("data-value"));   
+    currentRow.insertCell(0).innerHTML = departmentName.innerHTML; 
+    currentRow.insertCell(1).innerHTML =  `{{.Username}}`;
+    currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
+    empid = `{{.EmployeeID}}`;
+    console.log("Employee ID: ", empid);
+    const logData = {
+        "_employee_id": empid,
+        // department_id: departmentName.getAttribute("data-value"),
+        // username: currentRow.cells[1].innerHTML,
+        // "_clock_in": currentRow.cells[2].innerHTML,
+        // break_start: currentRow.cells[3]?.innerHTML || null,
+        // break_end: currentRow.cells[4]?.innerHTML || null,
+        // clock_out: currentRow.cells[5]?.innerHTML || null,
+        // total_hours: currentRow.cells[6]?.innerHTML || null,
+    };
+    // const url = `/admin/api/d/clockhistory/add/`
+    const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": getCookie("session"),
+        },
+        body: JSON.stringify(logData),
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log("logData: ", JSON.stringify(logData))   
+        console.log("response: ", response)
+
+        if (response.status === "ok") {
+            console.log("Data successfully sent to uadmin:", response);
+        } else {
+            alert("Error sending data to uadmin.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while sending data to uadmin.");
+    });
+    
+});
+const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You need to clock in first.");
+        return;
+    }
+    breakStartTime = new Date();
+    console.log("Break started at " + breakStartTime.toLocaleString());
+    isBreakStarted = true;
+    console.log(isBreakStarted);
+
+    if (currentRow) {
+        currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
+
+        // Break start time logs to uadmin database
+        const logData = {
+            "_break_start": breakStartTime.toLocaleString(),
+        };
+        const url = `/admin/api/d/clockhistory/edit/${localStorage.getItem("recentlogin")}/?_break_start=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": getCookie("session"),
+            },
+            body: JSON.stringify(logData),
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Break start time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending break start time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending break start time to uadmin.");
+        });
+    }
+});
+const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You need to clock in first.");
+        return;
+    }
+    if (!isBreakStarted) {
+        alert("You need to start a break first.");
+        return;
+    }
+    breakEndTime = new Date();
+    alert("Break ended at " + breakEndTime.toLocaleString());
+
+    if (currentRow) {
+        currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
+        ////// Break end time logs to uadmin database
+        const logData = {
+            "_break_end": breakStartTime.toLocaleString(),
+        };
+        const url = `/admin/api/d/clockhistory/edit/${ID}/?_break_end=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": getCookie("session"),
+            },
+            body: JSON.stringify(logData),
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Break end time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending break end time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending break start time to uadmin.");
+        });
+    }
+});
+const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
+    if (!isClockedIn) {
+        alert("You are already clocked out.");
+        return;
+    }
+    if (!isBreakStarted) {
+        alert("You need to start a break first.");
+        return;
+    }
+    if (!breakEndTime) {
+        alert("You need to end the break first.");
+        return;
+    }
+    isClockedIn = false;
+    const clockOutTime = new Date();
+    alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
+    if (currentRow) {
+        currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
+
+        const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
+        currentRow.insertCell(6).innerHTML = totalHours.toFixed(2);
+        const logData = {
+            "_clock_out": breakStartTime.toLocaleString(),
+        };
+        const url = `/admin/api/d/clockhistory/edit/${ID}/?_clock_out=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": getCookie("session"),
+            },
+            body: JSON.stringify(logData),
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Clock out time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending clock out time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending clock out time to uadmin.");
+        });
+    }
+});
+// document.addEventListener("DOMContentLoaded", function() {
+//     const dateCells = document.querySelectorAll('.date');
+//     dateCells.forEach(cell => {
+//         const originalDate = cell.textContent.trim();
+//         if (originalDate) {
+//             const convertedDate = convertDateFormat(originalDate);
+//             cell.textContent = convertedDate;
+//         }
+//     });
+// });
+// function convertDateFormat(dateString) { // Convert to PREFERRED date and time format
+// }
+document.getElementById("filterBtn").addEventListener("click", () => {
+    const filterValue = document.getElementById("search").value.toLowerCase();
+    const rows = logTable.getElementsByTagName("tr");
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let rowVisible = false;
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].innerHTML.toLowerCase().includes(filterValue)) {
+                rowVisible = true;
+                break;
+            }
+        }
+        rows[i].style.display = rowVisible ? "" : "none";
+    }
+});
