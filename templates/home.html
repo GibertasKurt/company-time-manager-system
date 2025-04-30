@@ -8,15 +8,134 @@
     <title>Company Time Manager</title>
 </head>
 <style>
-    html {
-        scroll-behavior: smooth;
-    }
+/* General reset for tables */
+table, th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header style */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #ccc;
+    position: relative;
+}
+
+/* Table style */
+#logTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#logTable th {
+    background: #d32f2f;
+    color: #fff;
+    font-weight: 600;
+}
+
+#logTable tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+#logTable tr:nth-child(even) {
+    background: #ffffff;
+}
+
+/* Button style */
+button {
+    background: linear-gradient(to bottom, #ff7979 5%, #d32f2f 100%);
+    border-radius: 5px;
+    border: 1px solid #ff2300;
+    box-shadow: 3px 4px 0px 0px #e80909;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 5px 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-shadow: 0px 2px 10px #ff0909;
+}
+
+button:hover {
+    background-color: #ff0000; /* Darker red on hover */
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 13px;
+    color: #666;
+}
+
+/* Headings and Links */
+h3 {
+    margin-top: 60px;
+    margin-left: 10px;
+    font-weight: 500;
+    color: #333;
+}
+
+a {
+    margin-top: 40px;
+    margin-right: 8px;
+    text-decoration: none;
+    color: #d32f2f;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Secondary header */
+#header2 {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#topRightImage {
+    position: absolute;
+    top: 1px;
+    right: 20px;
+    width: 195px;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+
 </style>
 <body>
     <main>
+        <div id="header2">
+            <h2>TIME MANAGEMENT SYSTEM</h2>
+            <img src="media/images/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg" alt="User Avatar" id="topRightImage">
+        </div>
         <div id="header">
             <h3>Logged in as {{.Username}}!</h3>
-            <a href="/logout/" type="button">Logout</a>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <a href="/logout/" type="button">Logout</a>
+            </div>
         </div>
         
         <input type="text" id="search" placeholder="Search...">
@@ -44,7 +163,7 @@
             {{end}}
   
             </table>
-        <div>
+        <div id="buttoncheck">
             <button id="btnClockIn">Clock In</button>
             <button id="btnbrkstrt">Break Start</button>
             <button id="btnbrkend">Break End</button>
@@ -92,7 +211,7 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         "_employee_id": empid,
         // department_id: departmentName.getAttribute("data-value"),
         // username: currentRow.cells[1].innerHTML,
-        "_clock_in": currentRow.cells[2].innerHTML,
+        // "_clock_in": currentRow.cells[2].innerHTML,
         // break_start: currentRow.cells[3]?.innerHTML || null,
         // break_end: currentRow.cells[4]?.innerHTML || null,
         // clock_out: currentRow.cells[5]?.innerHTML || null,
