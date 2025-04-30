@@ -6,5 +6,5 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) map[string]interfac
 	// User Group already set upon registration
 	// Active = true upon registration
 	// User Group = User upon registration
-	return c
+	return nil
 }

@@ -4,12 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/homestyles.css">
     <title>Company Time Manager</title>
 </head>
 <style>
-    html {
-        scroll-behavior: smooth;
+    /* General reset for tables */
+    table, th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Header style */
+    #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 10px 20px;
+        background-color: #f8f8f8;
+        border-bottom: 2px solid #ccc;
+        position: relative;
+    }
+    /* Table style */
+    #logTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    #logTable th {
+        background: #d32f2f;
+        color: #fff;
+        font-weight: 600;
+    }
+    #logTable tr:nth-child(odd) {
+        background: #f9f9f9;
+    }
+    #logTable tr:nth-child(even) {
+        background: #ffffff;
+    }
+    /* Button style */
+    button {
+        background: linear-gradient(to bottom, #ff7979 5%, #d32f2f 100%);
+        border-radius: 5px;
+        border: 1px solid #ff2300;
+        box-shadow: 3px 4px 0px 0px #e80909;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 5px 5px;
+        padding: 10px 20px;
+        text-decoration: none;
+        text-shadow: 0px 2px 10px #ff0909;
+    }
+    button:hover {
+        background-color: #ff0000; /* Darker red on hover */
+    }
+    button:active {
+        transform: scale(0.98);
+    }
+    /* Footer */
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 13px;
+        color: #666;
+    }
+    /* Headings and Links */
+    h3 {
+        margin-top: 60px;
+        margin-left: 10px;
+        font-weight: 500;
+        color: #333;
+    }
+    a {
+        margin-top: 40px;
+        margin-right: 8px;
+        text-decoration: none;
+        color: #d32f2f;
+        font-weight: 500;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    /* Secondary header */
+    #header2 {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    #topRightImage {
+        position: absolute;
+        top: 1px;
+        right: 20px;
+        width: 195px;
+        height: 150px;
+        object-fit: cover;
     }
 </style>
 <body>
@@ -34,7 +128,7 @@
             {{range .ClockHistories}}
             <tr>
                 <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
-                <td>{{.Employee.Name}}</td>
+                <td data-value="{{ .ID }}">{{.Employee.Name}}</td>
                 <td class="date">{{.ClockIn}} </td>
                 <td class="date">{{ if .BreakStart}}{{.BreakStart}}{{ end }}</td>
                 <td class="date">{{.BreakEnd}}</td>
@@ -57,25 +151,34 @@
     </footer>
 <script>
 console.log("EmpID: ", `{{.EmployeeID}}`)
-console.log("CurrentID: ", `{{.CurrentClockIn}}`)
+console.log("currentID: ", `{{.ID}}`)
 const logTable = document.getElementById("logTable");
-let isClockedIn = false;
+let isClockedIn;
+
+    if (localStorage.getItem("recentlogin") == 0) {
+        isClockedIn = false;
+    } else {
+        isClockedIn = true;
+    }
+
 let currentRow = null;
-let isBreakStarted = false;
+let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime;
 //// Important backend stuff
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
-}
+};
+console.log("login: {{.Recent}}")
+localStorage.setItem("recentlogin", "{{.Recent}}");
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+
     if (isClockedIn) {
         alert("You are already clocked in.");
         return;
     }
-    isClockedIn = true;
     clockInTime = new Date();
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
@@ -98,7 +201,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         // clock_out: currentRow.cells[5]?.innerHTML || null,
         // total_hours: currentRow.cells[6]?.innerHTML || null,
     };
-
     // const url = `/admin/api/d/clockhistory/add/`
     const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
     fetch(url, {
@@ -112,6 +214,7 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     .then(response => {
         console.log("logData: ", JSON.stringify(logData))   
         console.log("response: ", response)
+
         if (response.status === "ok") {
             console.log("Data successfully sent to uadmin:", response);
         } else {
@@ -124,16 +227,15 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     });
     
 });
-
-
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You need to clock in first.");
         return;
     }
     breakStartTime = new Date();
-    alert("Break started at " + breakStartTime.toLocaleString());
+    console.log("Break started at " + breakStartTime.toLocaleString());
     isBreakStarted = true;
+    console.log(isBreakStarted);
 
     if (currentRow) {
         currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
@@ -142,7 +244,7 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
         const logData = {
             "_break_start": breakStartTime.toLocaleString(),
         };
-        const url = `/admin/api/d/clockhistory/edit/${ID}/?_break_start=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+        const url = `/admin/api/d/clockhistory/edit/${localStorage.getItem("recentlogin")}/?_break_start=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
         fetch(url, {
             method: "POST",
             headers: {
@@ -165,7 +267,6 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
         });
     }
 });
-
 const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You need to clock in first.");
@@ -207,7 +308,6 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         });
     }
 });
-
 const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You are already clocked out.");
@@ -221,11 +321,9 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
         alert("You need to end the break first.");
         return;
     }
-    
     isClockedIn = false;
     const clockOutTime = new Date();
     alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
-
     if (currentRow) {
         currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
 
@@ -257,7 +355,18 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
         });
     }
 });
-
+// document.addEventListener("DOMContentLoaded", function() {
+//     const dateCells = document.querySelectorAll('.date');
+//     dateCells.forEach(cell => {
+//         const originalDate = cell.textContent.trim();
+//         if (originalDate) {
+//             const convertedDate = convertDateFormat(originalDate);
+//             cell.textContent = convertedDate;
+//         }
+//     });
+// });
+// function convertDateFormat(dateString) { // Convert to PREFERRED date and time format
+// }
 document.getElementById("filterBtn").addEventListener("click", () => {
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
