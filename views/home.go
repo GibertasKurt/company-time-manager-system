@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/kurt/company-time-manager-system/models"
+	"github.com/gibertaskurt/company-time-manager-system/models"
 	"github.com/uadmin/uadmin"
 )
 

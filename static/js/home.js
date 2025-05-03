@@ -3,11 +3,11 @@ console.log("currentID: ", `{{.ID}}`)
 const logTable = document.getElementById("logTable");
 let isClockedIn;
 
-    if (localStorage.getItem("recentlogin") == 0) {
-        isClockedIn = false;
-    } else {
-        isClockedIn = true;
-    }
+if (localStorage.getItem("recentlogin") == 0) {
+    isClockedIn = false;
+} else {
+    isClockedIn = true;
+}
 
 let currentRow = null;
 let isBreakStarted;
@@ -30,12 +30,12 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     clockInTime = new Date();
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
-    
+
     currentRow = logTable.insertRow();
-    departmentName = document.getElementById("departmentName"); 
-    console.log("Department Name: ", departmentName.getAttribute("data-value"));   
-    currentRow.insertCell(0).innerHTML = departmentName.innerHTML; 
-    currentRow.insertCell(1).innerHTML =  `{{.Username}}`;
+    departmentName = document.getElementById("departmentName");
+    console.log("Department Name: ", departmentName.getAttribute("data-value"));
+    currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
+    currentRow.insertCell(1).innerHTML = `{{.Username}}`;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
     empid = `{{.EmployeeID}}`;
     console.log("Employee ID: ", empid);
@@ -58,22 +58,22 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         },
         body: JSON.stringify(logData),
     })
-    .then(response => response.json())
-    .then(response => {
-        console.log("logData: ", JSON.stringify(logData))   
-        console.log("response: ", response)
+        .then(response => response.json())
+        .then(response => {
+            console.log("logData: ", JSON.stringify(logData))
+            console.log("response: ", response)
 
-        if (response.status === "ok") {
-            console.log("Data successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending data to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending data to uadmin.");
-    });
-    
+            if (response.status === "ok") {
+                console.log("Data successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending data to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending data to uadmin.");
+        });
+
 });
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
     if (!isClockedIn) {
@@ -101,18 +101,18 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
             },
             body: JSON.stringify(logData),
         })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status === "ok") {
-                console.log("Break start time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending break start time to uadmin.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while sending break start time to uadmin.");
-        });
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === "ok") {
+                    console.log("Break start time successfully sent to uadmin:", response);
+                } else {
+                    alert("Error sending break start time to uadmin.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while sending break start time to uadmin.");
+            });
     }
 });
 const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
@@ -142,18 +142,18 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
             },
             body: JSON.stringify(logData),
         })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status === "ok") {
-                console.log("Break end time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending break end time to uadmin.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while sending break start time to uadmin.");
-        });
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === "ok") {
+                    console.log("Break end time successfully sent to uadmin:", response);
+                } else {
+                    alert("Error sending break end time to uadmin.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while sending break start time to uadmin.");
+            });
     }
 });
 const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
@@ -189,18 +189,18 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
             },
             body: JSON.stringify(logData),
         })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status === "ok") {
-                console.log("Clock out time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending clock out time to uadmin.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while sending clock out time to uadmin.");
-        });
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === "ok") {
+                    console.log("Clock out time successfully sent to uadmin:", response);
+                } else {
+                    alert("Error sending clock out time to uadmin.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while sending clock out time to uadmin.");
+            });
     }
 });
 // document.addEventListener("DOMContentLoaded", function() {

@@ -19,17 +19,17 @@ type ClockHistory struct {
 
 func (c *ClockHistory) String() string {
 	uadmin.Preload(c, "Employee")
-	return c.Employee.Name
+	return c.Employee.FirstName + " " + c.Employee.LastName
 }
 
 func (c *ClockHistory) Save() {
-	// if c.ClockOut != nil && c.BreakStart != nil && c.BreakEnd != nil {
 	// totalWork := c.ClockOut.Sub(c.ClockIn)
-	// breakDuration := c.BreakEnd.Sub(*c.BreakStart)
+
+	// breakDuration := c.BreakEnd.Sub(c.BreakStart)
+
 	// netWorkDuration := totalWork - breakDuration
+
 	// c.TotalHours = netWorkDuration.Hours()
-	// // } else {
-	// c.TotalHours = 0
-	// }
+
 	uadmin.Save(c)
 }

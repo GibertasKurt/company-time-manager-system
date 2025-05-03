@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <title>Company Time Manager</title>
     <link rel="stylesheet" href="static/css/homestyles.css">
 </head>
+
 <body>
     <main>
         <div id="header2">
             <h2>TIME MANAGEMENT SYSTEM</h2>
-            <img src="media/images/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg" alt="User Avatar" id="topRightImage">
+            <img src="media/images/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg"
+                alt="User Avatar" id="topRightImage">
         </div>
         <div id="header">
             <h3>Logged in as {{.Username}}!</h3>
@@ -19,7 +22,7 @@
                 <a href="/logout/" type="button">Logout</a>
             </div>
         </div>
-        
+
         <input type="text" id="search" placeholder="Search...">
         <button id="filterBtn">Filter</button>
         <table id="logTable" style="width:100%">
@@ -43,8 +46,8 @@
                 <td>{{.TotalHours}}</td>
             </tr>
             {{end}}
-  
-            </table>
+
+        </table>
         <div id="buttoncheck">
             <button id="btnClockIn">Clock In</button>
             <button id="btnbrkstrt">Break Start</button>
@@ -56,7 +59,7 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
-<script src="static/js/home.js"></script>
+    <script src="static/js/home.js"></script>
 </body>
-</html>
 
+</html>

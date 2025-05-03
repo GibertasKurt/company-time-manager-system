@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kurt/company-time-manager-system/models"
+	"github.com/gibertaskurt/company-time-manager-system/models"
 )
 
 func AddClockHistoryAPIHandler(w http.ResponseWriter, r *http.Request) {

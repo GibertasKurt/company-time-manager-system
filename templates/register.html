@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/loginstyles.css">
+    <link rel="stylesheet" href="/static/css/registerstyles.css">
+
     <title>Company Time Manager - Register</title>
 </head>
+
 <body>
     <main>
         <div>
-            <form method="POST">
-                <input type="text" name="username" id="username" placeholder="Username" required />
-                <input type="password" name="password" id="password" placeholder="Password" required />
-                
-                <select name="cars" id="cars">
-                    <option value='{{ .Departments.ID }}'>{{ .Departments.Name }}</option>
-                </select>
-                
-                <button type="submit" id="btnRegister">Register</button>
-            </form>
+            <input type="text" name="first_name" id="first_name" placeholder="First Name" />
+            <input type="text" name="last_name" id="last_name" placeholder="Last Name" />
+            <input type="text" name="username" id="username" placeholder="Username" />
+            <input type="email" name="email" id="email" placeholder="Email" />
+            <input type="password" name="password" id="password" placeholder="Password" />
+
+            <select name="department_id" id="department_id">
+                {{ if .Departments }}
+                {{ range .Departments }}
+                <option value='{{ .ID }}'>{{ .Name }}</option>
+                {{ end }}
+                {{ else }}
+                <option value="" disabled>No departments available</option>
+                {{ end }}
+            </select>
             <h3><b style="color:red">{{.Err}}</b></h3>
+
+            <button type="submit" id="btnRegister">Register</button>
         </div>
     </main>
-    
+
     <footer>
-        <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
+        <p spellcheck="false">&copy; <span id="currentYear"></span>: Kurt Gibertas & Jose Tapic</p>
     </footer>
 </body>
+
+
+<script src="/static/js/register.js"></script>
+
 </html>
