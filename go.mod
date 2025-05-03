@@ -1,6 +1,6 @@
-module github.com/kurt/company-time-manager-system
+module github.com/gibertaskurt/company-time-manager-system
 
-go 1.24.2
+go 1.22.2
 
 require github.com/uadmin/uadmin v0.10.1
 
