@@ -38,9 +38,9 @@
             {{range .ClockHistories}}
             <tr>
                 <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
-                <td data-value="{{ .ID }}">{{.Employee.Name}}</td>
-                <td class="date">{{.ClockIn}} </td>
-                <td class="date">{{ if .BreakStart}}{{.BreakStart}}{{ end }}</td>
+                <td data-value="{{ .ID }}">{{.Employee.LastName}}, {{.Employee.FirstName}}</td>
+                <td class="date">{{.ClockIn}}</td>
+                <td class="date">{{if .BreakStart}}{{.BreakStart}}{{end}}</td>
                 <td class="date">{{.BreakEnd}}</td>
                 <td class="date">{{.ClockOut}}</td>
                 <td>{{.TotalHours}}</td>
@@ -59,7 +59,7 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
-    <script src="static/js/home.js"></script>
+    <script src="/static/js/home.js"></script>
 </body>
 
 </html>

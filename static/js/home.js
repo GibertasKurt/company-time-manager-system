@@ -1,13 +1,8 @@
-console.log("EmpID: ", `{{.EmployeeID}}`)
-console.log("currentID: ", `{{.ID}}`)
+console.log("EmpID: ", `{{.EmployeeID}}`);
+console.log("currentID: ", `{{.ID}}`);
+console.log("login: ", `{{.Recent}}`);
 const logTable = document.getElementById("logTable");
-let isClockedIn;
-
-if (localStorage.getItem("recentlogin") == 0) {
-    isClockedIn = false;
-} else {
-    isClockedIn = true;
-}
+let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 
 let currentRow = null;
 let isBreakStarted;
@@ -18,7 +13,6 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
-console.log("login: {{.Recent}}")
 localStorage.setItem("recentlogin", "{{.Recent}}");
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
@@ -30,10 +24,9 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     clockInTime = new Date();
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
-
     currentRow = logTable.insertRow();
     departmentName = document.getElementById("departmentName");
-    console.log("Department Name: ", departmentName.getAttribute("data-value"));
+    // console.log("Department Name: ", departmentName.getAttribute("data-value"));
     currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
     currentRow.insertCell(1).innerHTML = `{{.Username}}`;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
@@ -41,15 +34,8 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     console.log("Employee ID: ", empid);
     const logData = {
         "_employee_id": empid,
-        // department_id: departmentName.getAttribute("data-value"),
-        // username: currentRow.cells[1].innerHTML,
         // "_clock_in": currentRow.cells[2].innerHTML,
-        // break_start: currentRow.cells[3]?.innerHTML || null,
-        // break_end: currentRow.cells[4]?.innerHTML || null,
-        // clock_out: currentRow.cells[5]?.innerHTML || null,
-        // total_hours: currentRow.cells[6]?.innerHTML || null,
     };
-    // const url = `/admin/api/d/clockhistory/add/`
     const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
     fetch(url, {
         method: "POST",
