@@ -1,6 +1,5 @@
 const logTable = document.getElementById("logTable");
-let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
-
+// let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let currentRow = null;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime;
@@ -10,7 +9,7 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
-localStorage.setItem("recentlogin", "{{.Recent}}");
+// localStorage.setItem("recentlogin", "{{.Recent}}");
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
 
@@ -23,7 +22,7 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
 
     currentRow = logTable.insertRow();
     departmentName = document.getElementById("departmentName");
-    // console.log("Department Name: ", departmentName.getAttribute("data-value"));
+    console.log("Department Name: ", departmentName.getAttribute("data-value"));
     currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
     currentRow.insertCell(1).innerHTML = `{{.Username}}`;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
