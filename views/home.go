@@ -1,7 +1,6 @@
 package views
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -18,8 +17,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	clockhistory := []models.ClockHistory{}
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
-	recentLogin := models.ClockHistory{}
-	fmt.Println("Recent Login:", recentLogin)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)
@@ -37,14 +34,13 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		uadmin.Preload(&clockhistory[i].Employee, "Departments")
 	}
 
-	uadmin.Get(&recentLogin, "employee_id = ? AND clock_out IS NULL", employee.ID)
+	uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL", employee.ID)
 	c := map[string]interface{}{
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
 		"EmployeeID":     employee.ID,
-		"Recent":         recentLogin.ID,
 	}
 	return c
 }

@@ -9,31 +9,28 @@ import (
 )
 
 // MainHandler is the main handler for the login system.
-func MainHandler(w http.ResponseWriter, r *http.Request) { //needed prefix initialized from main.go
+func MainHandler(w http.ResponseWriter, r *http.Request) {
 	page := strings.TrimPrefix(r.URL.Path, "/")
+	page = strings.TrimSuffix(page, "/")
 
 	session := uadmin.IsAuthenticated(r)
-	c := map[string]interface{}{}
-
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
 	}
-	fmt.Println(uadmin.DEBUG, "page: ", page)
+
+	c := map[string]interface{}{}
+	uadmin.Trail(uadmin.DEBUG, "page: %v", page)
 	switch page {
-	case "home": //Name of HTML
+	case "home":
 		c = HomeHandler(w, r)
+		page = "home"
 	default:
-		page = "ascz"
+		page = "home"
+		c = HomeHandler(w, r)
 	}
-	//uadmin.Trail(uadmin.DEBUG, page)
+
 	c["Page"] = page
 	uadmin.Trail(uadmin.DEBUG, page)
 	uadmin.RenderHTML(w, r, fmt.Sprintf("./templates/%v.html", page), c)
-	// Rendering(w, r, page, c)
-
-}
-
-func Rendering(w http.ResponseWriter, r *http.Request, page string, context map[string]interface{}) {
-	path := "./templates/" + page + ".html"
-	uadmin.RenderHTML(w, r, path, context)
 }
