@@ -1,5 +1,5 @@
 const logTable = document.getElementById("logTable");
-// let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
+let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let currentRow = null;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime;
@@ -9,7 +9,7 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
-// localStorage.setItem("recentlogin", "{{.Recent}}");
+localStorage.setItem("recentlogin", "{{.Recent}}");
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
 
@@ -40,21 +40,21 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         },
         body: JSON.stringify(logData),
     })
-        .then(response => response.json())
-        .then(response => {
-            console.log("logData: ", JSON.stringify(logData))
-            console.log("response: ", response)
+    .then(response => response.json())
+    .then(response => {
+        console.log("logData: ", JSON.stringify(logData))
+        console.log("response: ", response)
 
-            if (response.status === "ok") {
-                console.log("Data successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending data to uadmin.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while sending data to uadmin.");
-        });
+        if (response.status === "ok") {
+            console.log("Data successfully sent to uadmin:", response);
+        } else {
+            alert("Error sending data to uadmin.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while sending data to uadmin.");
+    });
 
 });
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {

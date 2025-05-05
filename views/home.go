@@ -41,6 +41,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
 		"EmployeeID":     employee.ID,
+		// "Current":        clockhistory.ID,
 	}
 	return c
 }
