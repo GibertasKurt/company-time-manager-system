@@ -1,6 +1,3 @@
-console.log("EmpID: ", `{{.EmployeeID}}`);
-console.log("currentID: ", `{{.ID}}`);
-console.log("login: ", `{{.Recent}}`);
 const logTable = document.getElementById("logTable");
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 
