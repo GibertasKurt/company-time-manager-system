@@ -34,7 +34,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		uadmin.Preload(&clockhistory[i].Employee, "Departments")
 	}
 
-	uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL", employee.ID)
+	// uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL", employee.ID)
 	c := map[string]interface{}{
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
