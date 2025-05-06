@@ -185,18 +185,31 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
             });
     }
 });
-// document.addEventListener("DOMContentLoaded", function() {
-//     const dateCells = document.querySelectorAll('.date');
-//     dateCells.forEach(cell => {
-//         const originalDate = cell.textContent.trim();
-//         if (originalDate) {
-//             const convertedDate = convertDateFormat(originalDate);
-//             cell.textContent = convertedDate;
-//         }
-//     });
-// });
-// function convertDateFormat(dateString) { // Convert to PREFERRED date and time format
-// }
+// Convert go lang date & time in table to PREFERRED date and time
+document.addEventListener("DOMContentLoaded", function() {
+    const dateCells = document.querySelectorAll('.date');
+    dateCells.forEach(cell => {
+        const originalDate = cell.textContent.trim();
+        if (originalDate) {
+            const convertedDate = convertDate(originalDate);
+            cell.textContent = convertedDate;
+        }
+    });
+});
+function convertDate(dateStr) {
+    const date = new Date(dateStr);
+    const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true,
+    };
+    const formattedDate = date.toLocaleString('en-US', options);
+    return formattedDate.replace(',', '');
+}
 document.getElementById("filterBtn").addEventListener("click", () => {
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
