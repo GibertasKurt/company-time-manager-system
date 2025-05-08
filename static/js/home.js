@@ -65,12 +65,14 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         });
 
 });
+
+//break start
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You need to clock in first.");
         return;
     }
-    breakStartTime = new Date();
+    breakStartTime = Date.now();
     console.log("Break started at " + breakStartTime);
     console.log("Break started at " + breakStartTime.toLocaleString());
     isBreakStarted = true;
