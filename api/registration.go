@@ -28,6 +28,7 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 		Username   string `json:"username"`
 		Password   string `json:"password"`
 		Department string `json:"department_id"`
+		Email      string `json:"email"`
 
 		// Add more fields here if needed (last_name, email, etc.)
 	}
@@ -47,6 +48,10 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("firstname: ", reqBody.FirstName)
 	fmt.Println("lastname: ", reqBody.LastName)
 	fmt.Println("department: ", reqBody.Department)
+	fmt.Println("department_id: ", reqBody.Department)
+	fmt.Println("email: ", reqBody.Username)
+	fmt.Println("")
+
 	// Check if the username already exists
 	var existingUser uadmin.User
 	if err := uadmin.Get(&existingUser, "username = ?", reqBody.Username); err == nil {

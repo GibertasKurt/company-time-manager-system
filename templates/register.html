@@ -28,16 +28,19 @@
                 <option value="" disabled>No departments available</option>
                 {{ end }}
             </select>
-            <h3><b style="color:red">{{.Err}}</b></h3>
 
             <button type="submit" id="btnRegister">Register</button>
+            <h3>Already have an account? <a href="/login/">Login</a></h3>
+
         </div>
+        <footer>
+            <p spellcheck="false">&copy; <span id="currentYear"></span>: Kurt Gibertas & Jose Tapic</p>
+        </footer>
     </main>
 
-    <footer>
-        <p spellcheck="false">&copy; <span id="currentYear"></span>: Kurt Gibertas & Jose Tapic</p>
-    </footer>
+
 </body>
+
 
 
 <script src="/static/js/register.js"></script>

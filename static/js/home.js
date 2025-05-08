@@ -26,35 +26,43 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
     currentRow.insertCell(1).innerHTML = `{{.Username}}`;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
+    currentRow.insertCell(3).innerHTML = "Break Start Time";
+    // currentRow.insertCell(4).innerHTML = "Break End Time";
+    // currentRow.insertCell(5).innerHTML = "Clock Out Time";
+    // currentRow.insertCell(6).innerHTML = "Total Hours";
+
     empid = `{{.EmployeeID}}`;
     console.log("Employee ID: ", empid);
     const logData = {
         "_employee_id": empid,
         // "_clock_in": currentRow.cells[2].innerHTML,
     };
+
+
     const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
     fetch(url, {
         method: "POST",
         headers: {
+            "Content-Type": "application/json",
             "X-CSRF-TOKEN": getCookie("session"),
         },
         body: JSON.stringify(logData),
     })
-    .then(response => response.json())
-    .then(response => {
-        console.log("logData: ", JSON.stringify(logData))
-        console.log("response: ", response)
+        .then(response => response.json())
+        .then(response => {
+            console.log("logData: ", JSON.stringify(logData))
+            console.log("response: ", response)
 
-        if (response.status === "ok") {
-            console.log("Data successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending data to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending data to uadmin.");
-    });
+            if (response.status === "ok") {
+                console.log("Data successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending data to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending data to uadmin.");
+        });
 
 });
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
@@ -70,7 +78,6 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
     if (currentRow) {
         currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
 
-        // Break start time logs to uadmin database
         const logData = {
             "_break_start": breakStartTime.toLocaleString(),
         };
@@ -79,7 +86,7 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN": getCookie("session"),
+                // "X-CSRF-TOKEN": getCookie("session"),
             },
             body: JSON.stringify(logData),
         })
@@ -120,7 +127,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN": getCookie("session"),
+                // "X-CSRF-TOKEN": getCookie("session"),
             },
             body: JSON.stringify(logData),
         })
@@ -167,7 +174,7 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN": getCookie("session"),
+                // "X-CSRF-TOKEN": getCookie("session"),
             },
             body: JSON.stringify(logData),
         })
@@ -186,7 +193,8 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
     }
 });
 // Convert go lang date & time in table to PREFERRED date and time
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+
     const dateCells = document.querySelectorAll('.date');
     dateCells.forEach(cell => {
         const originalDate = cell.textContent.trim();
