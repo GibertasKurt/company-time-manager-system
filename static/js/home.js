@@ -198,6 +198,9 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 function convertDate(dateStr) {
     const date = new Date(dateStr);
+    if (isNaN(date.getTime())) {
+        return ""; // <nil> STRING BECOMES EMPTY, DAZ RITE MFER.
+    }
     const options = {
         year: 'numeric',
         month: 'numeric',
