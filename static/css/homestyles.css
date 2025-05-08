@@ -104,10 +104,19 @@ a:hover {
 }
 
 #topRightImage {
-  position: absolute;
-  top: 1px;
-  right: 20px;
-  width: 195px;
-  height: 150px;
-  object-fit: cover;
+    position: absolute;
+    top: 1px;
+    right: 20px;
+    width: 195px;
+    height: 150px;
+    object-fit: cover;
+}
+
+#search {
+    padding: 10px 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 10%;
 }
