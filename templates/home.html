@@ -64,7 +64,8 @@
     <script>
         console.log("EmpID: ", `{{.EmployeeID}}`);
         console.log("currentID: ", `{{.ID}}`);
-        console.log("login: ", `{{.Recent}}`);
+        console.log("login: ", `{{.Current.ID}}`);
+        let current_id = '{{.Current.ID}}'
     </script>
     <script src="/static/js/home.js"></script>
 </body>

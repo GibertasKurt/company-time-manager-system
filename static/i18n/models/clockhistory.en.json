@@ -29,6 +29,13 @@
       "err_msg": {},
       "Choices": {}
     },
+    "Current": {
+      "display_name": "Current",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "Department": {
       "display_name": "Department",
       "help": "",
