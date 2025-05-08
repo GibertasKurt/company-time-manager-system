@@ -6,45 +6,59 @@ body {
   background: #f4f6fb;
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-div {
-  max-width: 350px;
+.form-container,
+main > div {
+  max-width: 380px;
   width: 100%;
-  margin: 0;
-  padding: 36px;
+  margin: 32px 0 0 0;
+  padding: 36px 32px 24px 32px;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: stretch;
-}
-
-input::placeholder {
-  color: #555;
-  opacity: 1;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
+  gap: 14px;
 }
 
 input,
 select {
   width: 100%;
-  padding: 10px 12px;
-  margin: 8px 0;
+  padding: 12px 14px;
+  margin: 0;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 5px;
   font-size: 1rem;
-  background: #fafafa;
+  background: #fafbfc;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 select:focus {
   border-color: #0078d7;
+  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.08);
   outline: none;
   background: #fff;
+}
+
+input::placeholder {
+  color: #888;
+  opacity: 1;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
 button#btnRegister {
@@ -57,15 +71,101 @@ button#btnRegister {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 16px;
+  margin-inline: 2.5rem;
   transition: background 0.2s;
 }
 
-button#btnRegister:hover {
-  background: #005fa3;
+button#btnRegister:hover:not(:disabled) {
+  background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
+  box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
+}
+
+button#btnRegister:active:not(:disabled) {
+  background: #003f7f;
+}
+
+button#btnRegister:disabled {
+  background: #d1d5db;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+
+h3 b[style*="color:red"] {
+  color: #e53935 !important;
+  font-weight: 600;
+  font-size: 1.02rem;
+  display: block;
+  margin: 8px 0 0 0;
+}
+
+h3 b[style*="color:green"] {
+  color: #43a047 !important;
+  font-weight: 600;
+  font-size: 1.02rem;
+  display: block;
+  margin: 8px 0 0 0;
 }
 
 p {
   text-align: center;
-  margin-top: 16px;
-  font-size: 0.9rem;
+  margin-top: 18px;
+  font-size: 0.96rem;
+}
+
+a {
+  color: #0078d7;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #005fa3;
+}
+
+a:visited {
+  color: #005fa3;
+}
+
+a:active {
+  color: #003f7f;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin: 32px 0 12px 0;
+  font-size: 0.88rem;
+  color: #888;
+}
+footer a {
+  color: #0078d7;
+  text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form-container,
+  main > div {
+    padding: 18px 8px 16px 8px;
+    max-width: 98vw;
+  }
+  input,
+  select,
+  button#btnRegister {
+    font-size: 0.98rem;
+  }
+  footer {
+    font-size: 0.82rem;
+  }
 }
