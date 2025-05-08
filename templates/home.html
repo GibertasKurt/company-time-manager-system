@@ -13,7 +13,10 @@
     <main>
         <div id="header2">
             <h2>TIME MANAGEMENT SYSTEM</h2>
-            <img src="static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg" id="topRightImage">
+
+            <img src="static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg"
+                alt="User Avatar" id="topRightImage">
+
         </div>
         <div id="header">
             <h3>Logged in as {{.Username}}!</h3>
@@ -59,9 +62,10 @@
         <p>&copy; 2025: Kurt Gibertas & Jose Tapic</p>
     </footer>
     <script>
-console.log("EmpID: ", `{{.EmployeeID}}`);
-console.log("currentID: ", `{{.ID}}`);
-console.log("login: ", `{{.Recent}}`);
+        console.log("EmpID: ", `{{.EmployeeID}}`);
+        console.log("currentID: ", `{{.ID}}`);
+        console.log("login: ", `{{.Current.ID}}`);
+        let current_id = '{{.Current.ID}}'
     </script>
     <script src="/static/js/home.js"></script>
 </body>

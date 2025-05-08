@@ -38,6 +38,6 @@ document.getElementById("btnRegister").addEventListener("click", () => {
         })
         .catch(error => {
             console.error("Fetch error:", error);
-            alert("Failed to register: " + error.message + ". Please check your network connection and try again.");
+            alert("Failed to register: " + error.message + ". Please check your inputs.");
         });
 });

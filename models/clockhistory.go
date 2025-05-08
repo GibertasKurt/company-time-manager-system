@@ -15,21 +15,26 @@ type ClockHistory struct {
 	BreakStart *time.Time
 	BreakEnd   *time.Time
 	TotalHours float64 `uadmin:"readonly"`
+	Current    bool
 }
 
 func (c *ClockHistory) String() string {
-	uadmin.Preload(c, "Employee")
+	uadmin.Preload(c)
 	return c.Employee.FirstName + " " + c.Employee.LastName
 }
 
 func (c *ClockHistory) Save() {
-	// totalWork := c.ClockOut.Sub(c.ClockIn)
-
-	// breakDuration := c.BreakEnd.Sub(c.BreakStart)
-
-	// netWorkDuration := totalWork - breakDuration
-
-	// c.TotalHours = netWorkDuration.Hours()
 
 	uadmin.Save(c)
 }
+
+// func (c *ClockHistory) FindCurrent() {
+// 	uadmin.Filter(c, "employee_id = ? AND clock_out IS NULL", c.EmployeeID)
+// 	if c.ID == 0 {
+// 		c.ClockIn = time.Now()
+// 		c.Current = true
+// 	} else {
+// 		c.ClockOut = nil
+// 	}
+// 	uadmin.Save(c)
+// }
