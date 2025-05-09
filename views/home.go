@@ -18,12 +18,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
+	// fmt.Printf("Type::%T", employee.ID)
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)
 	} else {
 		uadmin.Filter(&clockhistory, "employee_id = ? AND clock_out IS NULL", employee.ID)
 		uadmin.Preload(&employee, "Departments")
-
 	}
 	if session == nil {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
@@ -36,17 +36,21 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		uadmin.Preload(&clockhistory[i].Employee, "Departments")
 	}
 
-	latest := []models.ClockHistory{}
-	uadmin.AdminPage("id", false, 0, 1, &latest, "employee_id = ? AND clock_out IS NULL", employee.ID)
-	uadmin.Preload(&latest[0])
-
 	c := map[string]interface{}{
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
 		"Username":       session.User.FirstName + " " + session.User.LastName,
 		"EmployeeID":     employee.ID,
-		"Current":        latest[0],
 	}
+
+	latest := []models.ClockHistory{}
+	uadmin.AdminPage("id", false, 0, 1, &latest, "employee_id = ? AND clock_out IS NULL", employee.ID)
+
+	if len(latest) > 0 {
+		uadmin.Preload(&latest)
+		c["Current"] = latest[0]
+	}
+
 	return c
 }

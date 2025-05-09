@@ -1,3 +1,8 @@
+/* Following is set in home.html
+    console.log("EmpID: ", `{{.EmployeeID}}`);
+    let empid = '{{.EmployeeID}}';
+    console.log("currentID: ", `{{.Current.ID}}`);
+    let current_id = '{{.Current.ID}}'; */
 const logTable = document.getElementById("logTable");
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let isBreakStarted;
@@ -21,8 +26,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
     currentRow = logTable.insertRow();
 
-    empid = `{{.EmployeeID}}`;
-    console.log("Employee ID: ", empid);
     const logData = {
         "_employee_id": empid,
     };
@@ -64,7 +67,7 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
     console.log(isBreakStarted);
 
     const logData = {
-        "_break_start": breakStartTime.getTime(),
+        "_break_start": breakStartTime,
     };
     const url = `/admin/api/d/clockhistory/edit/${current_id}/?_break_start=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
     fetch(url, {
