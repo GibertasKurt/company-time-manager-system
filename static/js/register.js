@@ -40,4 +40,6 @@ document.getElementById("btnRegister").addEventListener("click", () => {
             console.error("Fetch error:", error);
             alert("Failed to register: " + error.message + ". Please check your inputs.");
         });
+
+
 });
