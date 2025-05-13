@@ -38,21 +38,21 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         },
         body: JSON.stringify(logData),
     })
-    .then(response => response.json())
-    .then(response => {
-        console.log("logData: ", JSON.stringify(logData))
-        console.log("response: ", response)
+        .then(response => response.json())
+        .then(response => {
+            console.log("logData: ", JSON.stringify(logData))
+            console.log("response: ", response)
 
-        if (response.status === "ok") {
-            console.log("Data successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending data to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending data to uadmin.");
-    });
+            if (response.status === "ok") {
+                console.log("Data successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending data to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending data to uadmin.");
+        });
 });
 
 //break start
@@ -64,31 +64,32 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
     breakStartTime = Date.now();
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
-    console.log(isBreakStarted);
 
-    const logData = {
-        "_break_start": breakStartTime,
-    };
-    const url = `/admin/api/d/clockhistory/edit/${current_id}/?_break_start=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+    // const logData = {
+    //     "_break_start": breakStartTime,
+    // };
+    // console.log("LogData: ", logData);
+    const url = "/api/update_break"; // Update this, king.
     fetch(url, {
-        method: "POST",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(logData),
+        // Send data-value of the brkstrt button
+        body: JSON.stringify(`[data-value="breakstart"]logData`),
     })
-    .then(response => response.json())
-    .then(response => {
-        if (response.status === "ok") {
-            console.log("Break start time successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending break start time to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending break start time to uadmin.");
-    });
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Break start time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending break start time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending break start time to uadmin.");
+        });
 });
 const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
     if (!isBreakStarted) {
@@ -101,7 +102,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
     const logData = {
         "_break_end": breakEndTime.toLocaleString(),
     };
-    const url = `/admin/api/d/clockhistory/edit/${current_id}/?_break_end=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+    const url = "/api/update_break"; // Update this, king.
     fetch(url, {
         method: "POST",
         headers: {
@@ -109,26 +110,22 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         },
         body: JSON.stringify(logData),
     })
-    .then(response => response.json())
-    .then(response => {
-        if (response.status === "ok") {
-            console.log("Break end time successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending break end time to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending break start time to uadmin.");
-    });
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Break end time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending break end time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending break start time to uadmin.");
+        });
 });
 const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You are already clocked out.");
-        return;
-    }
-    if (!isBreakStarted) {
-        alert("You need to start a break first.");
         return;
     }
     if (!breakEndTime) {
@@ -142,7 +139,7 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
     const logData = {
         "_clock_out": clockOutTime.toLocaleString(),
     };
-    const url = `/admin/api/d/clockhistory/edit/${current_id}/?_clock_out=${logData}&x-csrf-token=${getCookie("session")}`; // Update this, king.
+    const url = "/api/update_break"; // Update this, king.
     fetch(url, {
         method: "POST",
         headers: {
@@ -150,18 +147,18 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
         },
         body: JSON.stringify(logData),
     })
-    .then(response => response.json())
-    .then(response => {
-        if (response.status === "ok") {
-            console.log("Clock out time successfully sent to uadmin:", response);
-        } else {
-            alert("Error sending clock out time to uadmin.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending clock out time to uadmin.");
-    });
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "ok") {
+                console.log("Break end time successfully sent to uadmin:", response);
+            } else {
+                alert("Error sending break end time to uadmin.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while sending break start time to uadmin.");
+        });
 });
 // Convert go lang date & time in table to PREFERRED date and time
 document.addEventListener("DOMContentLoaded", function () {

@@ -13,6 +13,12 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("UpsBreakHandler called")
 	clockhistory := []models.ClockHistory{}
 
+	// Switch case for data-value is breakStart or breakEnd
+	// switch _ := _, _ {
+	// case "breakStart":
+	// case "breakEnd":
+	// }
+
 	results := []map[string]interface{}{}
 
 	uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
