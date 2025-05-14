@@ -64,11 +64,13 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
     breakStartTime = Date.now();
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
+    console.log("Data value: " + btnbrkstrt.getAttribute("data-value"));
 
-    // const logData = {
+    const logData = {
     //     "_break_start": breakStartTime,
-    // };
-    // console.log("LogData: ", logData);
+        "data_value": btnbrkstrt.getAttribute("data-value")
+    };
+    console.log("LogData: ", logData);
     const url = "/api/update_break"; // Update this, king.
     fetch(url, {
         method: "PATCH",
@@ -76,7 +78,7 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
             "Content-Type": "application/json",
         },
         // Send data-value of the brkstrt button
-        body: JSON.stringify(`[data-value="breakstart"]logData`),
+        body: JSON.stringify(logData),
     })
         .then(response => response.json())
         .then(response => {
