@@ -3,13 +3,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f6fb;
+  background: #f9f9f9;
   margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  align-content: stretch;
-  flex-wrap: nowrap;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   flex-direction: column;
 }
+
 main {
   flex: 1;
   display: flex;
@@ -24,9 +23,10 @@ main > div {
   width: 100%;
   margin: 32px 0 0 0;
   padding: 36px 32px 24px 32px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(211, 47, 47, 0.2);
+  border: 1px solid #ddd;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -37,9 +37,8 @@ input,
 select {
   width: 100%;
   padding: 12px 14px;
-  margin: 0;
   box-sizing: border-box;
-  border: 1.5px solid #d1d5db;
+  border: 1.5px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
   background: #fafbfc;
@@ -48,40 +47,40 @@ select {
 
 input:focus,
 select:focus {
-  border-color: #0078d7;
-  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.08);
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
   outline: none;
   background: #fff;
 }
 
 input::placeholder {
   color: #888;
-  opacity: 1;
   font-size: 1rem;
   letter-spacing: 0.5px;
 }
 
 button#btnRegister {
   width: 100%;
-  padding: 10px;
-  background: #0078d7;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+  padding: 12px;
+  background: linear-gradient(to bottom, #ff7979 5%, #d32f2f 100%);
+  color: #ffffff;
+  border: 1px solid #ff2300;
+  border-radius: 5px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
+  box-shadow: 3px 4px 0px 0px #e80909;
+  text-shadow: 0px 2px 10px #ff0909;
+  transition: all 0.2s ease;
   margin-top: 16px;
-  margin-inline: 2.5rem;
-  transition: background 0.2s;
 }
 
 button#btnRegister:hover:not(:disabled) {
-  background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
-  box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
+  background-color: #ff0000;
 }
 
 button#btnRegister:active:not(:disabled) {
-  background: #003f7f;
+  transform: scale(0.98);
 }
 
 button#btnRegister:disabled {
@@ -93,7 +92,7 @@ button#btnRegister:disabled {
 
 h3 {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #333;
   margin: 0;
   padding: 0;
@@ -123,34 +122,28 @@ p {
 }
 
 a {
-  color: #0078d7;
+  color: #d32f2f;
   text-decoration: none;
-  transition: color 0.15s;
+  font-weight: 500;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #005fa3;
 }
 
-a:visited {
-  color: #005fa3;
-}
-
-a:active {
-  color: #003f7f;
-}
-
-/* Footer */
 footer {
   text-align: center;
   margin: 32px 0 12px 0;
   font-size: 0.88rem;
-  color: #888;
+  color: #666;
 }
 footer a {
-  color: #0078d7;
+  color: #d32f2f;
   text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 /* Responsive Design */
@@ -160,11 +153,13 @@ footer a {
     padding: 18px 8px 16px 8px;
     max-width: 98vw;
   }
+
   input,
   select,
   button#btnRegister {
     font-size: 0.98rem;
   }
+
   footer {
     font-size: 0.82rem;
   }
