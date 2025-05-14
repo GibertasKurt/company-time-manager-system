@@ -55,7 +55,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         });
 });
 
-//break start
 const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You need to clock in first.");
@@ -71,13 +70,12 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
         "data_value": btnbrkstrt.getAttribute("data-value")
     };
     console.log("LogData: ", logData);
-    const url = "/api/update_break"; // Update this, king.
+    const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
-        // Send data-value of the brkstrt button
         body: JSON.stringify(logData),
     })
         .then(response => response.json())
@@ -104,7 +102,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
     const logData = {
         "_break_end": breakEndTime.toLocaleString(),
     };
-    const url = "/api/update_break"; // Update this, king.
+    const url = "/api/update_break";
     fetch(url, {
         method: "POST",
         headers: {
@@ -141,7 +139,7 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
     const logData = {
         "_clock_out": clockOutTime.toLocaleString(),
     };
-    const url = "/api/update_break"; // Update this, king.
+    const url = "/api/update_break";
     fetch(url, {
         method: "POST",
         headers: {
