@@ -27,7 +27,6 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		page = "home"
 	default:
 		page = "login"
-		// c = HomeHandler(w, r)
 	}
 
 	c["Page"] = page
