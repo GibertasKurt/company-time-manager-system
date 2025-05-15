@@ -48,7 +48,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	uadmin.AdminPage("id", false, 0, 1, &latest, "employee_id = ? AND clock_out IS NULL", employee.ID)
 
 	if len(latest) > 0 {
-		uadmin.Preload(&latest)
+		uadmin.Preload(&latest[0])
 		c["Current"] = latest[0]
 	}
 

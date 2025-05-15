@@ -4,6 +4,7 @@
     console.log("currentID: ", `{{.Current.ID}}`);
     let current_id = '{{.Current.ID}}'; */
 const logTable = document.getElementById("logTable");
+let currentRow;
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime, timestamp;
@@ -23,8 +24,11 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     }
     isClockedIn = true;
     clockInTime = new Date();
-    alert("You have clocked in successfully at " + clockInTime.toLocaleString());
     currentRow = logTable.insertRow();
+    currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
+    currentRow.insertCell(1).innerHTML = Username;
+    currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
+    alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
     const logData = {
         "_employee_id": empid,
@@ -62,6 +66,7 @@ btnbrkstrt.addEventListener("click", () => {
         return;
     }
     breakStartTime = Date.now();
+    // currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
     const dataValue = btnbrkstrt.getAttribute("data-value");
@@ -70,27 +75,60 @@ btnbrkstrt.addEventListener("click", () => {
     //     "_break_start": breakStartTime,
         "data_value": btnbrkstrt.getAttribute("data-value")
     };
+
+    let formData = new FormData()
+    formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
+
     console.log("LogData: ", logData);
     const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logData),
+        body: formData,
     })
-        .then(response => response.json())
         .then(response => {
-            if (response.status === "ok") {
-                console.log("Break start time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending break start time to uadmin.");
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(text => {
+            try {
+                console.log(text);
+            } catch (e) {
+                console.error('Failed to parse JSON:', e);
             }
         })
         .catch(error => {
             console.error("Error:", error);
             alert("An error occurred while sending break start time to uadmin.");
         });
+    
+    // fetch(url, {
+    //     method: "PATCH",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(logData),
+    // })
+    //     .then(response => response.text())
+    //     .then(text => {
+    //         try {
+    //             const json = JSON.parse(text); // Attempt to parse JSON manually
+    //             console.log(json);
+    //         } catch (e) {
+    //             console.error('Failed to parse JSON:', e);
+    //         }
+    //         // if (response.status === "ok") {
+    //         //     console.log("Break start time successfully sent to uadmin:", response);
+    //         // } else {
+    //         //     alert("Error sending break start time to uadmin.");
+    //         // }
+    //     })
+    //     .catch(error => {
+    //         console.error("Error:", error);
+    //         alert("An error occurred while sending break start time to uadmin.");
+    //     });
 });
 const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
     if (!isBreakStarted) {
@@ -98,6 +136,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         return;
     }
     breakEndTime = new Date();
+    currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
     alert("Break ended at " + breakEndTime.toLocaleString());
 
     const logData = {
@@ -135,6 +174,7 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
     }
     isClockedIn = false;
     const clockOutTime = new Date();
+    currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
     alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
     const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
     const logData = {
