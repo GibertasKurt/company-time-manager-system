@@ -69,10 +69,7 @@ btnbrkstrt.addEventListener("click", () => {
     // currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
-    const dataValue = btnbrkstrt.getAttribute("data-value");
-    console.log("Data value: " + dataValue);
     const logData = {
-    //     "_break_start": breakStartTime,
         "data_value": btnbrkstrt.getAttribute("data-value")
     };
 
@@ -103,32 +100,6 @@ btnbrkstrt.addEventListener("click", () => {
             console.error("Error:", error);
             alert("An error occurred while sending break start time to uadmin.");
         });
-    
-    // fetch(url, {
-    //     method: "PATCH",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(logData),
-    // })
-    //     .then(response => response.text())
-    //     .then(text => {
-    //         try {
-    //             const json = JSON.parse(text); // Attempt to parse JSON manually
-    //             console.log(json);
-    //         } catch (e) {
-    //             console.error('Failed to parse JSON:', e);
-    //         }
-    //         // if (response.status === "ok") {
-    //         //     console.log("Break start time successfully sent to uadmin:", response);
-    //         // } else {
-    //         //     alert("Error sending break start time to uadmin.");
-    //         // }
-    //     })
-    //     .catch(error => {
-    //         console.error("Error:", error);
-    //         alert("An error occurred while sending break start time to uadmin.");
-    //     });
 });
 const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
     if (!isBreakStarted) {
@@ -136,26 +107,33 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         return;
     }
     breakEndTime = new Date();
-    currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
+    // currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
     alert("Break ended at " + breakEndTime.toLocaleString());
-
     const logData = {
-        "_break_end": breakEndTime.toLocaleString(),
+        "data_value": btnbrkstrt.getAttribute("data-value")
     };
+
+    let formData = new FormData()
+    formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
+
+    console.log("LogData: ", logData);
     const url = "/api/update_break";
     fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logData),
+        method: "PATCH",
+        body: formData,
     })
-        .then(response => response.json())
         .then(response => {
-            if (response.status === "ok") {
-                console.log("Break end time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending break end time to uadmin.");
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(text => {
+            try {
+                console.log(text);
+            } catch (e) {
+                console.error('Failed to parse JSON:', e);
             }
         })
         .catch(error => {
