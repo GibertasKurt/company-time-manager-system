@@ -1,8 +1,3 @@
-/* Following is set in home.html
-    console.log("EmpID: ", `{{.EmployeeID}}`);
-    let empid = '{{.EmployeeID}}';
-    console.log("currentID: ", `{{.Current.ID}}`);
-    let current_id = '{{.Current.ID}}'; */
 const logTable = document.getElementById("logTable");
 let currentRow;
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
@@ -15,6 +10,20 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
 localStorage.setItem("recentlogin", current_id);
+//// Get CurrentRow
+function getCurrentNullCell(currentRow) {
+    if (!currentRow) {
+        console.error("currentRow is undefined.");
+        return null;
+    }
+    const cells = currentRow.cells;
+    for (let i = 0; i < cells.length; i++) {
+        if (!cells[i].innerHTML.trim()) {
+            return cells[i];
+        }
+    }
+    return null;
+}
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
 
@@ -24,11 +33,14 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     }
     isClockedIn = true;
     clockInTime = new Date();
+    const nullCell = getCurrentNullCell(currentRow);
+    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     currentRow = logTable.insertRow();
     currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
     currentRow.insertCell(1).innerHTML = Username;
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
+
 
     const logData = {
         "_employee_id": empid,
@@ -66,7 +78,8 @@ btnbrkstrt.addEventListener("click", () => {
         return;
     }
     breakStartTime = Date.now();
-    // currentRow.insertCell(3).innerHTML = breakStartTime.toLocaleString();
+    const nullCell = getCurrentNullCell(currentRow);
+    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
     const logData = {
@@ -107,7 +120,8 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         return;
     }
     breakEndTime = new Date();
-    // currentRow.insertCell(4).innerHTML = breakEndTime.toLocaleString();
+    const nullCell = getCurrentNullCell(currentRow);
+    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     alert("Break ended at " + breakEndTime.toLocaleString());
     const logData = {
         "data_value": btnbrkstrt.getAttribute("data-value")
@@ -152,6 +166,8 @@ const btnClockOut = document.getElementById("btnClockOut").addEventListener("cli
     }
     isClockedIn = false;
     const clockOutTime = new Date();
+    const nullCell = getCurrentNullCell(currentRow);
+    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
     alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
     const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
@@ -194,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function convertDate(dateStr) {
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
-        return ""; // <nil> STRING BECOMES EMPTY, DAZ RITE MFER.
+        return ""; // <nil> BECOMES EMPTY STRING, DAZ RITE MFER.
     }
     const options = {
         year: 'numeric',

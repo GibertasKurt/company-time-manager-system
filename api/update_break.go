@@ -14,16 +14,16 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 	clockhistory := []models.ClockHistory{}
 	var breakAux = r.FormValue("data_value")
 
+	currentTime := time.Now()
+	// formattedTime := currentTime.Format("01/02/2006 03:04 PM") 12 hour format
+	// formattedTime := currentTime.Format("01/02/2006 15:04") 24 hour, no seconds
+	formattedTime := currentTime.Format("01/02/2006 15:04:05")
 	switch breakAux {
 	case "breakStart":
-		fmt.Println("breakStart")
-		currentTime := time.Now()
-		formattedTime := currentTime.Format("15:04")
+		fmt.Println("Case breakStart executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 	case "breakEnd":
-		fmt.Println("breakEnd")
-		currentTime := time.Now()
-		formattedTime := currentTime.Format("15:04")
+		fmt.Println("Case breakEnd executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 	default:
 		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
