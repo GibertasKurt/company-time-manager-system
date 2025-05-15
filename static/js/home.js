@@ -55,7 +55,8 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
         });
 });
 
-const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click", () => {
+const btnbrkstrt = document.getElementById("btnbrkstrt");
+btnbrkstrt.addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You need to clock in first.");
         return;
@@ -63,8 +64,8 @@ const btnbrkstrt = document.getElementById("btnbrkstrt").addEventListener("click
     breakStartTime = Date.now();
     console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
-    console.log("Data value: " + btnbrkstrt.getAttribute("data-value"));
-
+    const dataValue = btnbrkstrt.getAttribute("data-value");
+    console.log("Data value: " + dataValue);
     const logData = {
     //     "_break_start": breakStartTime,
         "data_value": btnbrkstrt.getAttribute("data-value")
