@@ -81,7 +81,6 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Save employee
 	employee := models.Employee{
 		UserID:        user.ID,
 		FirstName:     reqBody.FirstName,
