@@ -1,5 +1,5 @@
 const logTable = document.getElementById("logTable");
-let currentRow;
+let currentRow = logTable.rows.length > 0 ? logTable.rows[logTable.rows.length - 1] : null;
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime, timestamp;
@@ -77,26 +77,20 @@ btnbrkstrt.addEventListener("click", () => {
         alert("You need to clock in first.");
         return;
     }
-    breakStartTime = Date.now();
     const nullCell = getCurrentNullCell(currentRow);
     nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
-    console.log("Break started at " + breakStartTime);
     isBreakStarted = true;
-    const logData = {
-        "data_value": btnbrkstrt.getAttribute("data-value")
-    };
 
     let formData = new FormData()
     formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
 
-    console.log("LogData: ", logData);
     const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
         body: formData,
     })
         .then(response => {
-            console.log(response)
+            // console.log(response)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -104,7 +98,7 @@ btnbrkstrt.addEventListener("click", () => {
         })
         .then(text => {
             try {
-                console.log(text);
+                // console.log(text);
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -130,7 +124,6 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
     let formData = new FormData()
     formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
 
-    console.log("LogData: ", logData);
     const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
@@ -152,7 +145,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while sending break start time to uadmin.");
+            alert("An error occurred while sending break end time to uadmin.");
         });
 });
 const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
