@@ -12,6 +12,8 @@ import (
 func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("UpsBreakHandler called")
 	clockhistory := []models.ClockHistory{}
+	employee := models.Employee{}
+	session := uadmin.IsAuthenticated(r)
 	var breakAux = r.FormValue("data_value")
 
 	currentTime := time.Now()
@@ -29,6 +31,13 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
 		return
 	}
+	uadmin.Get(&employee, "user_id = ?", session.UserID)
+	if employee.ID == 0 {
+		fmt.Println("Invalid: ", employee.ID)
+	} else {
+		// uadmin.Get(&clockhistory, "clock_out IS NULL AND break_start IS NULL")
+	}
+	fmt.Println("Employee UserID: ", employee.ID)
 
 	results := []map[string]interface{}{}
 

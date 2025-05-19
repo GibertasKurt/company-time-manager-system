@@ -41,7 +41,6 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
     currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
     alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
-
     const logData = {
         "_employee_id": empid,
     };
@@ -130,7 +129,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         body: formData,
     })
         .then(response => {
-            console.log(response)
+            // console.log(response)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -138,7 +137,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
         })
         .then(text => {
             try {
-                console.log(text);
+                // console.log(text);
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
