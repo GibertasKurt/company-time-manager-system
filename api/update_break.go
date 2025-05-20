@@ -11,7 +11,7 @@ import (
 
 func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("UpsBreakHandler called")
-	clockhistory := []models.ClockHistory{}
+	clockhistory := models.ClockHistory{}
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
 	var breakAux = r.FormValue("data_value")
@@ -21,14 +21,13 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Invalid! EmployeeID is ", employee.ID)
 		return
 	} else {
-		uadmin.Filter(&clockhistory, "clock_out IS NULL AND break_start IS NULL")
-		// uadmin.Get(&clockhistory, "employee_id = ?", session.UserID)
+		uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL AND break_start IS NULL", session.UserID)
 	}
-	if employee.UserID == session.UserID {
-		fmt.Println("Session and Employee UserID are the same! ", session.UserID)
-	} else {
+	if employee.UserID != session.UserID {
+		fmt.Println("Session and Employee UserID are the NOT same! ")
 		fmt.Println("Session UserID: ", session.UserID)
-		fmt.Println("Employee ID: ", employee.UserID)
+		fmt.Println("Employee UserID: ", employee.UserID)
+		return
 	}
 
 	currentTime := time.Now()
@@ -43,8 +42,8 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case breakStart executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 		results := []map[string]interface{}{}
-
-		uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
+		clockhistory := []models.ClockHistory{}
+		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "")
 
 		for _, t := range clockhistory {
 			t.BreakStart = &currentTime
@@ -53,11 +52,12 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("results: ", results)
 	case "breakEnd":
+
 		fmt.Println("Case breakEnd executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 		results := []map[string]interface{}{}
-
-		uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
+		clockhistory := []models.ClockHistory{}
+		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "")
 
 		for _, t := range clockhistory {
 			t.BreakEnd = &currentTime
