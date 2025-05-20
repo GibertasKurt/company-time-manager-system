@@ -16,62 +16,57 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 	session := uadmin.IsAuthenticated(r)
 	var breakAux = r.FormValue("data_value")
 
-	currentTime := time.Now()
-	// formattedTime := currentTime.Format("01/02/2006 03:04 PM") 12 hour format
-	// formattedTime := currentTime.Format("01/02/2006 15:04") 24 hour, no seconds
-	formattedTime := currentTime.Format("01/02/2006 15:04:05")
-	switch breakAux {
-	case "breakStart":
-		fmt.Println("Case breakStart executed")
-		fmt.Println("Current Date and Time: ", formattedTime)
-	case "breakEnd":
-		fmt.Println("Case breakEnd executed")
-		fmt.Println("Current Date and Time: ", formattedTime)
-	default:
-		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
-		return
-	}
-
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
-
 	if employee.ID == 0 {
 		fmt.Println("Invalid! EmployeeID is ", employee.ID)
 		return
 	} else {
 		uadmin.Filter(&clockhistory, "clock_out IS NULL AND break_start IS NULL")
-		// fmt.Println("Clock history filetered: ", clockhistory)
+		// uadmin.Get(&clockhistory, "employee_id = ?", session.UserID)
 	}
 	if employee.UserID == session.UserID {
-		fmt.Println("EUREKA! EXCELSIOR!")
+		fmt.Println("Session and Employee UserID are the same! ", session.UserID)
 	} else {
 		fmt.Println("Session UserID: ", session.UserID)
 		fmt.Println("Employee ID: ", employee.UserID)
 	}
 
-	results := []map[string]interface{}{}
+	currentTime := time.Now()
+	// formattedTime := currentTime.Format("01/02/2006 03:04 PM") // 12 hour format
+	// formattedTime := currentTime.Format("01/02/2006 15:04 -0700 -0700") // 24 hour with time zone +0800
+	// formattedTime := currentTime.Format("01/02/2006 15:04:05") // 24 hour with seconds
+	// formattedTime := currentTime.Format("01/02/2006 15:04") // 24 hour, no seconds
+	formattedTime := currentTime.Format("01/02/2006 15:04 -0700 -0700") // 24 hour with time zone +0800
+	switch breakAux {
+	case "breakStart":
 
-	uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
+		fmt.Println("Case breakStart executed")
+		fmt.Println("Current Date and Time: ", formattedTime)
+		results := []map[string]interface{}{}
 
-	for _, t := range clockhistory {
-		now := time.Now()
-		t.BreakStart = &now
-		t.BreakEnd = &now
+		uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
 
-		uadmin.Preload(&t, "Employee")
-		uadmin.Preload(&t.Employee, "Departments")
+		for _, t := range clockhistory {
+			t.BreakStart = &currentTime
+			uadmin.Save(&t)
+			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
+		}
+		fmt.Println("results: ", results)
+	case "breakEnd":
+		fmt.Println("Case breakEnd executed")
+		fmt.Println("Current Date and Time: ", formattedTime)
+		results := []map[string]interface{}{}
 
-		results = append(results, map[string]interface{}{
-			"ID":         t.ID,
-			"EmployeeID": t.Employee.ID,
-			"FirstName":  t.Employee.FirstName,
-			"LastName":   t.Employee.LastName,
-			"Department": t.Employee.Departments.Name,
-			"ClockIn":    t.ClockIn,
-			"ClockOut":   t.ClockOut,
-			"BreakIn":    t.BreakStart,
-			"BreakOut":   t.BreakEnd,
-		})
+		uadmin.AdminPage("id", false, 0, 5, &clockhistory, "")
+
+		for _, t := range clockhistory {
+			t.BreakEnd = &currentTime
+			uadmin.Save(&t)
+			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
+		}
+		fmt.Println("results: ", results)
+	default:
+		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
+		return
 	}
-	// fmt.Println("results: ", results)
-	uadmin.ReturnJSON(w, r, results)
 }
