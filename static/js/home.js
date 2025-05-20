@@ -113,10 +113,8 @@ btnbrkend.addEventListener("click", () => {
         alert("You need to start a break first.");
         return;
     }
-    breakEndTime = new Date();
     const nullCell = getCurrentNullCell(currentRow);
     nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
-    alert("Break ended at " + breakEndTime.toLocaleString());
     const logData = {
         "data_value": btnbrkstrt.getAttribute("data-value")
     };
