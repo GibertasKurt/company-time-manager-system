@@ -21,7 +21,9 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Invalid! EmployeeID is ", employee.ID)
 		return
 	} else {
-		uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL AND break_start IS NULL", session.UserID)
+		fmt.Println("Session UserID: ", session.UserID)
+		fmt.Println("Employee UserID: ", employee.UserID)
+		uadmin.Get(&clockhistory, "employee_id = ? AND clock_out IS NULL AND break_start IS NULL", session.ID)
 	}
 	if employee.UserID != session.UserID {
 		fmt.Println("Session and Employee UserID are the NOT same! ")
@@ -41,30 +43,26 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println("Case breakStart executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
-		results := []map[string]interface{}{}
 		clockhistory := []models.ClockHistory{}
-		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "")
+		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
 
 		for _, t := range clockhistory {
 			t.BreakStart = &currentTime
 			uadmin.Save(&t)
 			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
 		}
-		fmt.Println("results: ", results)
 	case "breakEnd":
 
 		fmt.Println("Case breakEnd executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
-		results := []map[string]interface{}{}
 		clockhistory := []models.ClockHistory{}
-		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "")
+		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
 
 		for _, t := range clockhistory {
 			t.BreakEnd = &currentTime
 			uadmin.Save(&t)
 			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
 		}
-		fmt.Println("results: ", results)
 	default:
 		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
 		return
