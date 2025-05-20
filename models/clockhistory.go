@@ -24,7 +24,9 @@ func (c *ClockHistory) String() string {
 }
 
 func (c *ClockHistory) Save() {
-
+	if c.ClockOut != nil { // breakStart - breakEnd
+		c.TotalHours = c.ClockOut.Sub(c.ClockIn).Hours()
+	}
 	uadmin.Save(c)
 }
 
