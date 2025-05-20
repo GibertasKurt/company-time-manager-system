@@ -48,7 +48,7 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 
 		for _, t := range clockhistory {
 			t.BreakStart = &currentTime
-			uadmin.Save(&t)
+			t.Save()
 			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
 		}
 	case "breakEnd":
@@ -60,7 +60,8 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 
 		for _, t := range clockhistory {
 			t.BreakEnd = &currentTime
-			uadmin.Save(&t)
+			// uadmin.Save(&t)
+			t.Save()
 			uadmin.Trail(uadmin.DEBUG, "Break Start - ID: %d, Break Start Time: %v\n", t.ID, t.BreakStart)
 		}
 	default:

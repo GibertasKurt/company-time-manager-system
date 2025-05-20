@@ -1,5 +1,5 @@
 const logTable = document.getElementById("logTable");
-let currentRow = logTable.rows.length > 0 ? logTable.rows[logTable.rows.length - 1] : null;
+let currentRow = logTable.rows.length > 0 || logTable.rows.length != null ? logTable.rows[logTable.rows.length - 1] : null;
 let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime, timestamp;
@@ -115,9 +115,7 @@ btnbrkend.addEventListener("click", () => {
     }
     const nullCell = getCurrentNullCell(currentRow);
     nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
-    const logData = {
-        "data_value": btnbrkstrt.getAttribute("data-value")
-    };
+    isBreakStarted = false;
 
     let formData = new FormData()
     formData.append("data_value", btnbrkend.getAttribute("data-value"))
@@ -146,44 +144,45 @@ btnbrkend.addEventListener("click", () => {
             alert("An error occurred while sending break end time to uadmin.");
         });
 });
-const btnClockOut = document.getElementById("btnClockOut").addEventListener("click", () => {
+const btnClockOut = document.getElementById("btnClockOut");
+btnClockOut.addEventListener("click", () => {
     if (!isClockedIn) {
         alert("You are already clocked out.");
         return;
     }
-    if (!breakEndTime) {
+    if (isBreakStarted) {
         alert("You need to end the break first.");
         return;
     }
-    isClockedIn = false;
-    const clockOutTime = new Date();
     const nullCell = getCurrentNullCell(currentRow);
     nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
-    currentRow.insertCell(5).innerHTML = clockOutTime.toLocaleString();
-    alert("You have clocked out successfully at " + clockOutTime.toLocaleString());
-    const totalHours = ((clockOutTime - clockInTime) - (breakEndTime - breakStartTime)) / (1000 * 60 * 60);
-    const logData = {
-        "_clock_out": clockOutTime.toLocaleString(),
-    };
-    const url = "/api/update_break";
+    isClockedIn = false;
+    
+    let formData = new FormData()
+    formData.append("data_value", btnClockOut.getAttribute("data-value"))
+
+    const url = "/api/clockout";
     fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logData),
+        method: "PATCH",
+        body: formData,
     })
-        .then(response => response.json())
         .then(response => {
-            if (response.status === "ok") {
-                console.log("Break end time successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending break end time to uadmin.");
+            // console.log(response)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(text => {
+            try {
+                // console.log(text);
+            } catch (e) {
+                console.error('Failed to parse JSON:', e);
             }
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while sending break start time to uadmin.");
+            alert("An error occurred while sending clock out time to uadmin.");
         });
 });
 // Convert go lang date & time in table to PREFERRED date and time

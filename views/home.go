@@ -22,7 +22,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)
 	} else {
-		uadmin.Filter(&clockhistory, "employee_id = ? AND clock_out IS NULL", employee.ID)
+		uadmin.Filter(&clockhistory, "employee_id = ?", employee.ID)
 		uadmin.Preload(&employee, "Departments")
 	}
 	if session == nil {
