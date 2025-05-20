@@ -107,7 +107,8 @@ btnbrkstrt.addEventListener("click", () => {
             alert("An error occurred while sending break start time to uadmin.");
         });
 });
-const btnbrkend = document.getElementById("btnbrkend").addEventListener("click", () => {
+const btnbrkend = document.getElementById("btnbrkend");
+btnbrkend.addEventListener("click", () => {
     if (!isBreakStarted) {
         alert("You need to start a break first.");
         return;
@@ -121,7 +122,7 @@ const btnbrkend = document.getElementById("btnbrkend").addEventListener("click",
     };
 
     let formData = new FormData()
-    formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
+    formData.append("data_value", btnbrkend.getAttribute("data-value"))
 
     const url = "/api/update_break";
     fetch(url, {

@@ -31,13 +31,22 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error: Invalid data-value! Thrown: ", breakAux)
 		return
 	}
+
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
+
 	if employee.ID == 0 {
-		fmt.Println("Invalid: ", employee.ID)
+		fmt.Println("Invalid! EmployeeID is ", employee.ID)
+		return
 	} else {
-		// uadmin.Get(&clockhistory, "clock_out IS NULL AND break_start IS NULL")
+		uadmin.Filter(&clockhistory, "clock_out IS NULL AND break_start IS NULL")
+		// fmt.Println("Clock history filetered: ", clockhistory)
 	}
-	fmt.Println("Employee UserID: ", employee.ID)
+	if employee.UserID == session.UserID {
+		fmt.Println("EUREKA! EXCELSIOR!")
+	} else {
+		fmt.Println("Session UserID: ", session.UserID)
+		fmt.Println("Employee ID: ", employee.UserID)
+	}
 
 	results := []map[string]interface{}{}
 
@@ -63,6 +72,6 @@ func UpsBreakHandler(w http.ResponseWriter, r *http.Request) {
 			"BreakOut":   t.BreakEnd,
 		})
 	}
-	fmt.Println("results: ", results)
+	// fmt.Println("results: ", results)
 	uadmin.ReturnJSON(w, r, results)
 }
