@@ -1,8 +1,11 @@
 const logTable = document.getElementById("logTable");
-let currentRow = logTable.rows.length > 0 || logTable.rows.length != null ? logTable.rows[logTable.rows.length - 1] : null;
-let isClockedIn = localStorage.getItem("recentlogin") == 0 ? false : true;
+
+let isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
 let isBreakStarted;
-let clockInTime, breakStartTime, breakEndTime, timestamp;
+let clockInTime, breakStartTime, breakEndTime, clockOutTime;
+var popupDialog = document.getElementById("popupDialog");
+var popupDialogclose = document.getElementsByClassName("close")[0];
+const popupDialogText = document.getElementById("popupDialog-text");
 //// Important backend stuff
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -10,39 +13,21 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
 localStorage.setItem("recentlogin", current_id);
-//// Get CurrentRow
-function getCurrentNullCell(currentRow) {
-    if (!currentRow) {
-        console.error("currentRow is undefined.");
-        return null;
-    }
-    const cells = currentRow.cells;
-    for (let i = 0; i < cells.length; i++) {
-        if (!cells[i].innerHTML.trim()) {
-            return cells[i];
-        }
-    }
-    return null;
-}
 //// Buttons
-const btnClockIn = document.getElementById("btnClockIn").addEventListener("click", () => {
+const btnClockIn = document.getElementById("btnClockIn");
+btnClockIn.addEventListener("click", () => {
 
     if (isClockedIn) {
-        alert("You are already clocked in.");
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You are already clocked in.";
         return;
     }
     isClockedIn = true;
     clockInTime = new Date();
-    const nullCell = getCurrentNullCell(currentRow);
-    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
-    currentRow = logTable.insertRow();
-    currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
-    currentRow.insertCell(1).innerHTML = Username;
-    currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
-    alert("You have clocked in successfully at " + clockInTime.toLocaleString());
 
     const logData = {
         "_employee_id": empid,
+        "_clock_in": clockInTime.toISOString(),
     };
     const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
     fetch(url, {
@@ -73,12 +58,12 @@ const btnClockIn = document.getElementById("btnClockIn").addEventListener("click
 const btnbrkstrt = document.getElementById("btnbrkstrt");
 btnbrkstrt.addEventListener("click", () => {
     if (!isClockedIn) {
-        alert("You need to clock in first.");
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You need to clock in first.";
         return;
     }
-    const nullCell = getCurrentNullCell(currentRow);
-    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     isBreakStarted = true;
+    breakStartTime = new Date();
 
     let formData = new FormData()
     formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
@@ -89,7 +74,6 @@ btnbrkstrt.addEventListener("click", () => {
         body: formData,
     })
         .then(response => {
-            // console.log(response)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -97,7 +81,7 @@ btnbrkstrt.addEventListener("click", () => {
         })
         .then(text => {
             try {
-                // console.log(text);
+                console.log('Successfully sent break start to uadmin!');
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -110,12 +94,12 @@ btnbrkstrt.addEventListener("click", () => {
 const btnbrkend = document.getElementById("btnbrkend");
 btnbrkend.addEventListener("click", () => {
     if (!isBreakStarted) {
-        alert("You need to start a break first.");
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You need to start a break first.";
         return;
     }
-    const nullCell = getCurrentNullCell(currentRow);
-    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     isBreakStarted = false;
+    breakEndTime = new Date();
 
     let formData = new FormData()
     formData.append("data_value", btnbrkend.getAttribute("data-value"))
@@ -126,7 +110,6 @@ btnbrkend.addEventListener("click", () => {
         body: formData,
     })
         .then(response => {
-            // console.log(response)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -134,7 +117,7 @@ btnbrkend.addEventListener("click", () => {
         })
         .then(text => {
             try {
-                // console.log(text);
+                console.log('Successfully sent break end to uadmin!');
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -147,16 +130,17 @@ btnbrkend.addEventListener("click", () => {
 const btnClockOut = document.getElementById("btnClockOut");
 btnClockOut.addEventListener("click", () => {
     if (!isClockedIn) {
-        alert("You are already clocked out.");
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You are already clocked out.";
         return;
     }
     if (isBreakStarted) {
-        alert("You need to end the break first.");
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You need to end the break first.";
         return;
     }
-    const nullCell = getCurrentNullCell(currentRow);
-    nullCell ? console.log("Found an empty cell:", nullCell) : console.log("No empty cells found in the current row.");
     isClockedIn = false;
+    clockOutTime = new Date();
     
     let formData = new FormData()
     formData.append("data_value", btnClockOut.getAttribute("data-value"))
@@ -167,7 +151,6 @@ btnClockOut.addEventListener("click", () => {
         body: formData,
     })
         .then(response => {
-            // console.log(response)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -175,7 +158,7 @@ btnClockOut.addEventListener("click", () => {
         })
         .then(text => {
             try {
-                // console.log(text);
+                console.log('Successfully sent clock out to uadmin!');
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -214,6 +197,7 @@ function convertDate(dateStr) {
     const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate.replace(',', '');
 }
+// Filter function
 document.getElementById("filterBtn").addEventListener("click", () => {
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
@@ -229,3 +213,12 @@ document.getElementById("filterBtn").addEventListener("click", () => {
         rows[i].style.display = rowVisible ? "" : "none";
     }
 });
+// Popup Dialog
+popupDialogclose.onclick = function() {
+    popupDialog.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == popupDialog) {
+        popupDialog.style.display = "none";
+    }
+}
