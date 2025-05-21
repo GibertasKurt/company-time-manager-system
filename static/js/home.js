@@ -1,5 +1,4 @@
 const logTable = document.getElementById("logTable");
-
 let isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
 let isBreakStarted;
 let clockInTime, breakStartTime, breakEndTime, clockOutTime;
