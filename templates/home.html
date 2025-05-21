@@ -12,11 +12,9 @@
 <body>
     <main>
         <div id="header2">
-            <h2>TIME MANAGEMENT SYSTEM</h2>
-
+            <h2>COMPANY TIME MANAGEMENT SYSTEM</h2>
             <img src="static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg"
                 alt="User Avatar" id="topRightImage">
-
         </div>
         <div id="header">
             <h3>Logged in as {{.Username}}!</h3>
@@ -24,9 +22,10 @@
                 <a href="/logout/" type="button">Logout</a>
             </div>
         </div>
-
-        <input type="text" id="search" placeholder="Search...">
-        <button id="filterBtn">Filter</button>
+        <div>
+            <input type="text" id="search" placeholder="Search...">
+            <button id="filterBtn">Filter</button>
+        </div>
         <table id="logTable" style="width:100%">
             <tr>
                 <th>Department</th>
@@ -40,7 +39,7 @@
             {{range .ClockHistories}}
             <tr>
                 <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
-                <td data-value="{{ .ID }}">{{.Employee.LastName}}, {{.Employee.FirstName}}</td>
+                <td data-value="{{ .ID }}">{{.Employee.LastName}} {{.Employee.FirstName}}</td>
                 <td class="date">{{.ClockIn}}</td>
                 <td class="date">{{if .BreakStart}}{{.BreakStart}}{{end}}</td>
                 <td class="date">{{.BreakEnd}}</td>
@@ -73,8 +72,8 @@
         let empid = '{{.EmployeeID}}';
         console.log("currentID: ", `{{.Current.ID}}`);
         let current_id = '{{.Current.ID}}';
-        console.log("username: ", `{{.Username}}`);
-        let Username = '{{.Username}}';
+        console.log("onbreakID: ", `{{.onbreak.ID}}`);
+        let breakstarted_id = '{{.onbreak.ID}}';
     </script>
     <script src="/static/js/home.js"></script>
 </body>

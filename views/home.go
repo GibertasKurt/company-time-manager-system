@@ -40,7 +40,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
-		"Username":       session.User.FirstName + " " + session.User.LastName,
+		"Username":       session.User.FirstName + " " + session.User.LastName + " (" + session.User.Username + ")",
 		"EmployeeID":     employee.ID,
 	}
 
@@ -50,6 +50,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	if len(latest) > 0 {
 		uadmin.Preload(&latest[0])
 		c["Current"] = latest[0]
+	}
+
+	onbreak := []models.ClockHistory{} // CHECKS IF THE USER IS ALREADY ON BREAK, THEY REFRESH/RELOGIN, STILL ON BREAK.
+	uadmin.AdminPage("id", false, 0, 1, &onbreak, "employee_id = ? AND break_start IS NOT NULL AND break_end IS NULL AND clock_out IS NULL", employee.ID)
+
+	if len(onbreak) > 0 {
+		uadmin.Preload(&onbreak[0])
+		c["onbreak"] = onbreak[0]
 	}
 
 	return c

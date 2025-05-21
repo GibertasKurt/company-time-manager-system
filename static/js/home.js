@@ -1,6 +1,6 @@
 const logTable = document.getElementById("logTable");
 let isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
-let isBreakStarted;
+let isBreakStarted = localStorage.getItem("breakstarted") == 0 || localStorage.getItem("breakstarted") == null ? false : true;
 let clockInTime, breakStartTime, breakEndTime, clockOutTime;
 var popupDialog = document.getElementById("popupDialog");
 var popupDialogclose = document.getElementsByClassName("close")[0];
@@ -12,6 +12,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
 localStorage.setItem("recentlogin", current_id);
+localStorage.setItem("breakstarted", breakstarted_id);
 //// Buttons
 const btnClockIn = document.getElementById("btnClockIn");
 btnClockIn.addEventListener("click", () => {
@@ -61,6 +62,11 @@ btnbrkstrt.addEventListener("click", () => {
         popupDialogText.innerHTML = "You need to clock in first.";
         return;
     }
+    if (isBreakStarted) {
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You are already taking a break.";
+        return;
+    }
     isBreakStarted = true;
     breakStartTime = new Date();
 
@@ -92,6 +98,11 @@ btnbrkstrt.addEventListener("click", () => {
 });
 const btnbrkend = document.getElementById("btnbrkend");
 btnbrkend.addEventListener("click", () => {
+    if (!isClockedIn) {
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You need to clock in first.";
+        return;
+    }
     if (!isBreakStarted) {
         popupDialog.style.display = "block";
         popupDialogText.innerHTML = "You need to start a break first.";
@@ -133,12 +144,7 @@ btnClockOut.addEventListener("click", () => {
         popupDialogText.innerHTML = "You are already clocked out.";
         return;
     }
-    if (isBreakStarted) {
-        popupDialog.style.display = "block";
-        popupDialogText.innerHTML = "You need to end the break first.";
-        return;
-    }
-    isClockedIn = false;
+    isBreakStarted ? (isBreakStarted = false, isClockedIn = false) : isClockedIn = false;
     clockOutTime = new Date();
     
     let formData = new FormData()
