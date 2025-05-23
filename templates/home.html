@@ -74,6 +74,8 @@
         let current_id = '{{.Current.ID}}';
         console.log("onbreakID: ", `{{.onbreak.ID}}`);
         let breakstarted_id = '{{.onbreak.ID}}';
+        console.log("isAdmin: ", `{{.IsAdmin}}`);
+        let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null;
     </script>
     <script src="/static/js/home.js"></script>
 </body>
