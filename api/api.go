@@ -17,12 +17,4 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 		UpdateClockAPIHandler(w, r)
 		return
 	}
-	if strings.HasPrefix(r.URL.Path, "/update_break") {
-		UpsBreakHandler(w, r)
-		return
-	}
-	if strings.HasPrefix(r.URL.Path, "/clockout") {
-		ClockOutHandler(w, r)
-		return
-	}
 }

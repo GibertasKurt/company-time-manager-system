@@ -50,33 +50,6 @@ btnClockIn.addEventListener("click", () => {
             console.error("Error:", error);
             alert("An error occurred while sending clock in time to uadmin.");
         });
-    // const logData = {
-    //     "_employee_id": empid,
-    //     "_clock_in": clockInTime.toISOString(),
-    // };
-    // const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
-    // fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(logData),
-    // })
-    //     .then(response => response.json())
-    //     .then(response => {
-    //         console.log("logData: ", JSON.stringify(logData))
-    //         console.log("response: ", response)
-
-    //         if (response.status === "ok") {
-    //             console.log("Data successfully sent to uadmin:", response);
-    //         } else {
-    //             alert("Error sending data to uadmin.");
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error("Error:", error);
-    //         alert("An error occurred while sending data to uadmin.");
-    //     });
 });
 const btnbrkstrt = document.getElementById("btnbrkstrt");
 btnbrkstrt.addEventListener("click", () => {
@@ -94,7 +67,7 @@ btnbrkstrt.addEventListener("click", () => {
     breakStartTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
-    const url = "/api/update_break";
+    const url = "/api/updateclock";
     fetch(url, {
         method: "PATCH",
         body: formData,
@@ -133,7 +106,7 @@ btnbrkend.addEventListener("click", () => {
     breakEndTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnbrkend.getAttribute("data-value"))
-    const url = "/api/update_break";
+    const url = "/api/updateclock";
     fetch(url, {
         method: "PATCH",
         body: formData,
@@ -167,7 +140,7 @@ btnClockOut.addEventListener("click", () => {
     clockOutTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnClockOut.getAttribute("data-value"))
-    const url = "/api/clockout";
+    const url = "/api/updateclock";
     fetch(url, {
         method: "PATCH",
         body: formData,
