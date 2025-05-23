@@ -17,7 +17,7 @@ localStorage.setItem("breakstarted", breakstarted_id);
 const btnClockIn = document.getElementById("btnClockIn");
 btnClockIn.addEventListener("click", () => {
 
-    if (isAdmin == 0) {
+    if (isAdmin) {
         popupDialog.style.display = "block";
         popupDialogText.innerHTML = "You cant clock in as an admin.";
         return;
