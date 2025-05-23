@@ -42,10 +42,6 @@ body {
   align-items: center;
   margin: 5px 0 5px 0;
 }
-#header div #userAvatar {
-  max-width: 2.5em;
-  max-height: 2.5em;
-}
 #header div h3 {
   margin: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

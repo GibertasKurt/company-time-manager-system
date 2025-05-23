@@ -17,7 +17,7 @@
         </div>
         <div id="header">
             <div>
-                <h3>Logged in as <span><img src="static/dashboardmenu_Icon_UQFybnln52/profile_placeholder.png" id="userAvatar"></span> {{.Username}}!</h3>
+                <h3>Logged in as {{.Username}}!</h3>
             </div>
             <a href="/logout/" id="logOutButton">Logout</a>
         </div>
@@ -66,17 +66,17 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas, Jose Tapic, Briana Palinsad, & John Michael Delos reyes</p>
     </footer>
-    <script>
-        console.log("empID: ", `{{.EmployeeID}}`);
-        let empid = '{{.EmployeeID}}';
-        console.log("currentID: ", `{{.Current.ID}}`);
-        let current_id = '{{.Current.ID}}';
-        console.log("onbreakID: ", `{{.onbreak.ID}}`);
-        let breakstarted_id = '{{.onbreak.ID}}';
-        console.log("isAdmin: ", `{{.IsAdmin}}`);
-        let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null;
-    </script>
-    <script src="/static/js/home.js"></script>
 </body>
+<script>
+    console.log("empID: ", `{{.EmployeeID}}`);
+    let empid = '{{.EmployeeID}}';
+    console.log("currentID: ", `{{.Current.ID}}`);
+    let current_id = '{{.Current.ID}}';
+    console.log("onbreakID: ", `{{.onbreak.ID}}`);
+    let breakstarted_id = '{{.onbreak.ID}}';
+    console.log("isAdmin: ", `{{.IsAdmin}}`);
+    let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null;
+</script>
+<script src="/static/js/home.js"></script>
 
 </html>

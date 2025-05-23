@@ -5,18 +5,15 @@ let clockInTime, breakStartTime, breakEndTime, clockOutTime;
 var popupDialog = document.getElementById("popupDialog");
 var popupDialogclose = document.getElementsByClassName("close")[0];
 const popupDialogText = document.getElementById("popupDialog-text");
-//// Important backend stuff
-function getCookie(name) {
+function getCookie(name) { //// Important backend stuff
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
 localStorage.setItem("recentlogin", current_id);
 localStorage.setItem("breakstarted", breakstarted_id);
-//// Buttons
-const btnClockIn = document.getElementById("btnClockIn");
+const btnClockIn = document.getElementById("btnClockIn"); //// Buttons
 btnClockIn.addEventListener("click", () => {
-
     if (isAdmin) {
         popupDialog.style.display = "block";
         popupDialogText.innerHTML = "You cant clock in as an admin.";
@@ -29,7 +26,6 @@ btnClockIn.addEventListener("click", () => {
     }
     isClockedIn = true;
     clockInTime = new Date();
-
     const logData = {
         "_employee_id": empid,
         "_clock_in": clockInTime.toISOString(),
@@ -58,7 +54,6 @@ btnClockIn.addEventListener("click", () => {
             alert("An error occurred while sending data to uadmin.");
         });
 });
-
 const btnbrkstrt = document.getElementById("btnbrkstrt");
 btnbrkstrt.addEventListener("click", () => {
     if (!isClockedIn) {
@@ -73,10 +68,8 @@ btnbrkstrt.addEventListener("click", () => {
     }
     isBreakStarted = true;
     breakStartTime = new Date();
-
     let formData = new FormData()
     formData.append("data_value", btnbrkstrt.getAttribute("data-value"))
-
     const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
@@ -114,10 +107,8 @@ btnbrkend.addEventListener("click", () => {
     }
     isBreakStarted = false;
     breakEndTime = new Date();
-
     let formData = new FormData()
     formData.append("data_value", btnbrkend.getAttribute("data-value"))
-
     const url = "/api/update_break";
     fetch(url, {
         method: "PATCH",
@@ -150,10 +141,8 @@ btnClockOut.addEventListener("click", () => {
     }
     isBreakStarted ? (isBreakStarted = false, isClockedIn = false) : isClockedIn = false;
     clockOutTime = new Date();
-    
     let formData = new FormData()
     formData.append("data_value", btnClockOut.getAttribute("data-value"))
-
     const url = "/api/clockout";
     fetch(url, {
         method: "PATCH",
@@ -177,9 +166,7 @@ btnClockOut.addEventListener("click", () => {
             alert("An error occurred while sending clock out time to uadmin.");
         });
 });
-// Convert go lang date & time in table to PREFERRED date and time
-document.addEventListener("DOMContentLoaded", function () {
-
+document.addEventListener("DOMContentLoaded", function () { // Convert go lang date & time in table to PREFERRED date and time
     const dateCells = document.querySelectorAll('.date');
     dateCells.forEach(cell => {
         const originalDate = cell.textContent.trim();
@@ -206,8 +193,7 @@ function convertDate(dateStr) {
     const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate.replace(',', '');
 }
-// Filter function
-document.getElementById("filterBtn").addEventListener("click", () => {
+document.getElementById("filterBtn").addEventListener("click", () => { // Filter function
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
     for (let i = 1; i < rows.length; i++) {
