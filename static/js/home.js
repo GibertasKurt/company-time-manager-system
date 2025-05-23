@@ -34,7 +34,6 @@ btnClockIn.addEventListener("click", () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": getCookie("session"),
         },
         body: JSON.stringify(logData),
     })
