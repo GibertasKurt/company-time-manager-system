@@ -26,33 +26,57 @@ btnClockIn.addEventListener("click", () => {
     }
     isClockedIn = true;
     clockInTime = new Date();
-    const logData = {
-        "_employee_id": empid,
-        "_clock_in": clockInTime.toISOString(),
-    };
-    const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
+    let formData = new FormData()
+    formData.append("data_value", btnClockIn.getAttribute("data-value"))
+    const url = "/api/updateclock";
     fetch(url, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logData),
+        body: formData,
     })
-        .then(response => response.json())
         .then(response => {
-            console.log("logData: ", JSON.stringify(logData))
-            console.log("response: ", response)
-
-            if (response.status === "ok") {
-                console.log("Data successfully sent to uadmin:", response);
-            } else {
-                alert("Error sending data to uadmin.");
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(text => {
+            try {
+                console.log('Successfully sent clock in time to uadmin!');
+            } catch (e) {
+                console.error('Failed to parse JSON:', e);
             }
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while sending data to uadmin.");
+            alert("An error occurred while sending clock in time to uadmin.");
         });
+    // const logData = {
+    //     "_employee_id": empid,
+    //     "_clock_in": clockInTime.toISOString(),
+    // };
+    // const url = `/admin/api/d/clockhistory/add/?_employee_id=${empid}&x-csrf-token=${getCookie("session")}`;
+    // fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(logData),
+    // })
+    //     .then(response => response.json())
+    //     .then(response => {
+    //         console.log("logData: ", JSON.stringify(logData))
+    //         console.log("response: ", response)
+
+    //         if (response.status === "ok") {
+    //             console.log("Data successfully sent to uadmin:", response);
+    //         } else {
+    //             alert("Error sending data to uadmin.");
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error("Error:", error);
+    //         alert("An error occurred while sending data to uadmin.");
+    //     });
 });
 const btnbrkstrt = document.getElementById("btnbrkstrt");
 btnbrkstrt.addEventListener("click", () => {

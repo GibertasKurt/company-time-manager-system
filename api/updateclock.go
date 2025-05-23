@@ -9,7 +9,7 @@ import (
 	"github.com/uadmin/uadmin"
 )
 
-func UpadeClockHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("UpdateClockHandler called")
 	clockhistory := models.ClockHistory{}
 	employee := models.Employee{}
@@ -37,6 +37,26 @@ func UpadeClockHandler(w http.ResponseWriter, r *http.Request) {
 	case "clockIn":
 		fmt.Println("Case clockIn executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
+		clockhistory := models.ClockHistory{}
+		clockhistory.ClockIn = currentTime
+		clockhistory.EmployeeID = employee.ID
+		clockhistory.BreakStart = nil
+		clockhistory.BreakEnd = nil
+		clockhistory.ClockOut = nil
+		err := uadmin.Save(&clockhistory)
+		if err != nil {
+			uadmin.ReturnJSON(w, r, map[string]interface{}{
+				"status":  "error",
+				"message": "Failed to save clock history",
+			})
+			return
+		}
+		uadmin.Trail(uadmin.DEBUG, "Clock In - ID: %d, Clock In Time: %v\n", clockhistory.ID, clockhistory.ClockIn)
+		uadmin.ReturnJSON(w, r, map[string]interface{}{
+			"status":  "success",
+			"message": "Clock In successful",
+			"clockIn": clockhistory.ClockIn,
+		})
 		// clockhistory := []models.ClockHistory{}
 		// uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
 		// for _, t := range clockhistory {
