@@ -11,22 +11,20 @@
 
 <body>
     <main>
-        <div id="header2">
-            <h2>TIME MANAGEMENT SYSTEM</h2>
-
-            <img src="static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.jpg"
-                alt="User Avatar" id="topRightImage">
-
+        <div id="titleheader">
+            <h2>COMPANY TIME MANAGEMENT SYSTEM</h2>
+            <img src="static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.png" alt="Company Logo">
         </div>
         <div id="header">
-            <h3>Logged in as {{.Username}}!</h3>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <a href="/logout/" type="button">Logout</a>
+            <div>
+                <h3>Logged in as {{.Username}}!</h3>
             </div>
+            <a href="/logout/" id="logOutButton">Logout</a>
         </div>
-
-        <input type="text" id="search" placeholder="Search...">
-        <button id="filterBtn">Filter</button>
+        <div id="searchBar">
+            <input type="text" id="search" placeholder="Search...">
+            <button id="filterBtn">Filter</button>
+        </div>
         <table id="logTable" style="width:100%">
             <tr>
                 <th>Department</th>
@@ -40,7 +38,7 @@
             {{range .ClockHistories}}
             <tr>
                 <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
-                <td data-value="{{ .ID }}">{{.Employee.LastName}}, {{.Employee.FirstName}}</td>
+                <td data-value="{{ .ID }}">{{.Employee.LastName}} {{.Employee.FirstName}}</td>
                 <td class="date">{{.ClockIn}}</td>
                 <td class="date">{{if .BreakStart}}{{.BreakStart}}{{end}}</td>
                 <td class="date">{{.BreakEnd}}</td>
@@ -51,7 +49,7 @@
 
         </table>
         <div id="buttoncheck">
-            <button id="btnClockIn">Clock In</button>
+            <button id="btnClockIn" data-value="clockIn">Clock In</button>
             <button id="btnbrkstrt" data-value="breakStart">Break Start</button>
             <button id="btnbrkend" data-value="breakEnd">Break End</button>
             <button id="btnClockOut" data-value="clockOut">Clock Out</button>
@@ -68,15 +66,17 @@
     <footer>
         <p>&copy; 2025: Kurt Gibertas, Jose Tapic, Briana Palinsad, & John Michael Delos reyes</p>
     </footer>
-    <script>
-        console.log("empID: ", `{{.EmployeeID}}`);
-        let empid = '{{.EmployeeID}}';
-        console.log("currentID: ", `{{.Current.ID}}`);
-        let current_id = '{{.Current.ID}}';
-        console.log("username: ", `{{.Username}}`);
-        let Username = '{{.Username}}';
-    </script>
-    <script src="/static/js/home.js"></script>
 </body>
+<script>
+    console.log("empID: ", `{{.EmployeeID}}`);
+    let empid = '{{.EmployeeID}}';
+    console.log("currentID: ", `{{.Current.ID}}`);
+    let current_id = '{{.Current.ID}}';
+    console.log("onbreakID: ", `{{.onbreak.ID}}`);
+    let breakstarted_id = '{{.onbreak.ID}}';
+    console.log("isAdmin: ", `{{.IsAdmin}}`);
+    let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null;
+</script>
+<script src="/static/js/home.js"></script>
 
 </html>

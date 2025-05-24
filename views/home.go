@@ -19,8 +19,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	session := uadmin.IsAuthenticated(r)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
 	// fmt.Printf("Type::%T", employee.ID)
+	isAdmin := 0          // Checks if user is admin, in which they cannot clock in/out. Because they aint an employee.
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)
+		isAdmin = 1
 	} else {
 		uadmin.Filter(&clockhistory, "employee_id = ?", employee.ID)
 		uadmin.Preload(&employee, "Departments")
@@ -29,7 +31,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return nil
 	}
-	isAdmin := session.User.Admin
 
 	for i := range clockhistory {
 		uadmin.Preload(&clockhistory[i], "Employee")
@@ -40,7 +41,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 		"IsAdmin":        isAdmin,
 		"ClockHistories": clockhistory,
 		"formatTime":     formatTime,
-		"Username":       session.User.FirstName + " " + session.User.LastName,
+		"Username":       session.User.FirstName + " " + session.User.LastName + " (" + session.User.Username + ")",
 		"EmployeeID":     employee.ID,
 	}
 
@@ -50,6 +51,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	if len(latest) > 0 {
 		uadmin.Preload(&latest[0])
 		c["Current"] = latest[0]
+	}
+
+	onbreak := []models.ClockHistory{} // CHECKS IF THE USER IS ALREADY ON BREAK, THEY REFRESH/RELOGIN, STILL ON BREAK.
+	uadmin.AdminPage("id", false, 0, 1, &onbreak, "employee_id = ? AND break_start IS NOT NULL AND break_end IS NULL AND clock_out IS NULL", employee.ID)
+
+	if len(onbreak) > 0 {
+		uadmin.Preload(&onbreak[0])
+		c["onbreak"] = onbreak[0]
 	}
 
 	return c
