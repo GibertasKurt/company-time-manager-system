@@ -136,7 +136,8 @@ btnClockOut.addEventListener("click", () => {
         popupDialogText.innerHTML = "You are already clocked out.";
         return;
     }
-    isBreakStarted ? (isBreakStarted = false, isClockedIn = false) : isClockedIn = false;
+    isBreakStarted = false
+    isClockedIn = false
     clockOutTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnClockOut.getAttribute("data-value"))
