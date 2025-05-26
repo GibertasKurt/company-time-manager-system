@@ -18,7 +18,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 	employee := models.Employee{}
 	session := uadmin.IsAuthenticated(r)
 	uadmin.Get(&employee, "user_id = ?", session.UserID)
-	// fmt.Printf("Type::%T", employee.ID)
 	isAdmin := 0          // Checks if user is admin, in which they cannot clock in/out. Because they aint an employee.
 	if employee.ID == 0 { // Filters table by employee ID
 		uadmin.All(&clockhistory)

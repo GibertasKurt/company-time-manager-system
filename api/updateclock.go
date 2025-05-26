@@ -32,12 +32,23 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	currentTime := time.Now()
-	formattedTime := currentTime.Format("01/02/2006 15:04 -0700 -0700") // 24 hour with time zone +0800
+	formattedTime := currentTime.Format("01/02/2006 03:04 PM") // 12 hour format
+	// formattedTime := currentTime.Format("01/02/2006 15:04 -0700 -0700") // 24 hour with time zone +0800
 	switch clockAux {
 	case "clockIn":
 		fmt.Println("Case clockIn executed")
+		clockhistories := []models.ClockHistory{}
+		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_out IS NULL", employee.ID)
+		if len(clockhistories) > 0 {
+			uadmin.Trail(uadmin.DEBUG, "You are already clocked in.")
+			uadmin.ReturnJSON(w, r, map[string]interface{}{
+				"status":  "error",
+				"message": "You are already clocked in",
+			})
+			return
+		}
 		fmt.Println("Current Date and Time: ", formattedTime)
-		clockhistory := models.ClockHistory{}
+
 		clockhistory.ClockIn = currentTime
 		clockhistory.EmployeeID = employee.ID
 		clockhistory.BreakStart = nil
@@ -57,13 +68,6 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 			"message": "Clock In successful",
 			"clockIn": clockhistory.ClockIn,
 		})
-		// clockhistory := []models.ClockHistory{}
-		// uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
-		// for _, t := range clockhistory {
-		// 	t.ClockIn = currentTime
-		// 	t.Save()
-		// 	uadmin.Trail(uadmin.DEBUG, "Clock In - ID: %d, Clock In Time: %v\n", t.ID, t.ClockIn)
-		// }
 	case "clockOut":
 		fmt.Println("Case clockOut executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
