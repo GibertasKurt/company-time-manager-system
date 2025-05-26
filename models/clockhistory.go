@@ -1,6 +1,7 @@
 package models
 
 import (
+	"math"
 	"time"
 
 	"github.com/uadmin/uadmin"
@@ -25,18 +26,8 @@ func (c *ClockHistory) String() string {
 
 func (c *ClockHistory) Save() {
 	if c.ClockOut != nil { // breakStart - breakEnd
-		c.TotalHours = c.ClockOut.Sub(c.ClockIn).Hours()
+		duration := c.ClockOut.Sub(c.ClockIn).Hours()
+		c.TotalHours = math.Round(duration*100) / 100
 	}
 	uadmin.Save(c)
 }
-
-// func (c *ClockHistory) FindCurrent() {
-// 	uadmin.Filter(c, "employee_id = ? AND clock_out IS NULL", c.EmployeeID)
-// 	if c.ID == 0 {
-// 		c.ClockIn = time.Now()
-// 		c.Current = true
-// 	} else {
-// 		c.ClockOut = nil
-// 	}
-// 	uadmin.Save(c)
-// }

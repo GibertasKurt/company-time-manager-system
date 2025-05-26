@@ -39,11 +39,11 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case clockIn executed")
 		clockhistories := []models.ClockHistory{}
 		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_out IS NULL", employee.ID)
-		if len(clockhistories) > 0 {
+		if len(clockhistories) > 0 { // Cannot clock in if already clocked in
 			uadmin.Trail(uadmin.DEBUG, "You are already clocked in.")
 			uadmin.ReturnJSON(w, r, map[string]interface{}{
 				"status":  "error",
-				"message": "You are already clocked in",
+				"message": "You are already clocked in!",
 			})
 			return
 		}
@@ -72,6 +72,7 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case clockOut executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 		clockhistory := []models.ClockHistory{}
+		uadmin.Filter(&clockhistory, "employee_id = ? AND clock_in IS NULL AND clock_out IS NULL", employee.ID)
 		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
 		for _, t := range clockhistory {
 			t.ClockOut = &currentTime
@@ -82,6 +83,14 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case breakStart executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 		clockhistory := []models.ClockHistory{}
+		if len(clockhistory) > 0 { // Cannot break start if not clocked in
+			uadmin.Trail(uadmin.DEBUG, "You are already clocked in.")
+			uadmin.ReturnJSON(w, r, map[string]interface{}{
+				"status":  "error",
+				"message": "You are already clocked in!",
+			})
+			return
+		}
 		uadmin.AdminPage("id", false, 0, 1, &clockhistory, "employee_id = ?", employee.ID)
 		for _, t := range clockhistory {
 			t.BreakStart = &currentTime
