@@ -83,6 +83,7 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case breakStart executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
 		clockhistory := []models.ClockHistory{}
+		uadmin.Filter(&clockhistory, "employee_id = ? AND (clock_in IS NULL OR break_start IS NOT NULL)", employee.ID)
 		if len(clockhistory) > 0 { // Cannot break start if not clocked in
 			uadmin.Trail(uadmin.DEBUG, "You are already clocked in.")
 			uadmin.ReturnJSON(w, r, map[string]interface{}{

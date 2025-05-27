@@ -12,7 +12,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 5px 0;
+  margin: 0 0 0 0;
   background: linear-gradient(90deg,rgba(30, 30, 30, 0) 65%, rgba(255, 255, 255, 1) 75%);
 }
 #titleheader h2 {
@@ -40,7 +40,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 0 5px 0;
+  margin: 0 0 5px 0;
   background: linear-gradient(90deg,#8a0000 95%, rgba(255, 255, 255, 0) 100%);
 }
 #header div h3 {
@@ -77,6 +77,7 @@ body {
   display: flex;
   justify-content:flex-start;
   align-items:flex-start;
+  margin-top: 5px;
 }
 #searchBar input {
   text-align: center;
