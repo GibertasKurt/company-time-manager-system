@@ -42,7 +42,7 @@ btnClockIn.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent clock in time to uadmin!');
-                updateLogTable();
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -82,7 +82,7 @@ btnbrkstrt.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent break start to uadmin!');
-                updateLogTable();
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -122,7 +122,7 @@ btnbrkend.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent break end to uadmin!');
-                updateLogTable();
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -158,7 +158,7 @@ btnClockOut.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent clock out to uadmin!');
-                updateLogTable();
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -180,9 +180,7 @@ document.addEventListener("DOMContentLoaded", function () { // Convert go lang d
 });
 function convertDate(dateStr) {
     const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-        return ""; // <nil> BECOMES EMPTY STRING, DAZ RITE MFER.
-    }
+    if (isNaN(date.getTime())) { return "" } // <nil> BECOMES EMPTY STRING, DAZ RITE MFER.
     const options = {
         year: 'numeric',
         month: 'numeric',
@@ -194,26 +192,10 @@ function convertDate(dateStr) {
     };
     const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate.replace(',', '');
-}
-function updateLogTable() {
-    fetch(`/admin/api/d/clockhistory/read/?EmployeeID=${empid}`, {
-        method: 'GET'
-    })
-        .then(response => response.json())
-        .then(data => {
-            logTable.innerHTML = '';
-            Object.values(data).forEach(record => {
-                const row = logTable.insertRow();
-                const cell1 = row.insertCell(0);
-                const cell2 = row.insertCell(1);
-                cell1.textContent = record.time;
-                cell2.textContent = record.action;
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching log data:", error);
-        });
-}
+};
+// function UpdateTable() { // Update table
+
+// }
 document.getElementById("filterBtn").addEventListener("click", () => { // Filter function
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
@@ -231,9 +213,9 @@ document.getElementById("filterBtn").addEventListener("click", () => { // Filter
 });
 popupDialogclose.onclick = function() { // Popup Dialog
     popupDialog.style.display = "none";
-}
+};
 window.onclick = function(event) {
     if (event.target == popupDialog) {
         popupDialog.style.display = "none";
     }
-}
+};
