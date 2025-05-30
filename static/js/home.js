@@ -42,6 +42,7 @@ btnClockIn.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent clock in time to uadmin!');
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -81,6 +82,7 @@ btnbrkstrt.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent break start to uadmin!');
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -120,6 +122,7 @@ btnbrkend.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent break end to uadmin!');
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -136,7 +139,8 @@ btnClockOut.addEventListener("click", () => {
         popupDialogText.innerHTML = "You are already clocked out.";
         return;
     }
-    isBreakStarted ? (isBreakStarted = false, isClockedIn = false) : isClockedIn = false;
+    isBreakStarted = false
+    isClockedIn = false
     clockOutTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnClockOut.getAttribute("data-value"))
@@ -154,6 +158,7 @@ btnClockOut.addEventListener("click", () => {
         .then(text => {
             try {
                 console.log('Successfully sent clock out to uadmin!');
+                location.reload();
             } catch (e) {
                 console.error('Failed to parse JSON:', e);
             }
@@ -175,9 +180,7 @@ document.addEventListener("DOMContentLoaded", function () { // Convert go lang d
 });
 function convertDate(dateStr) {
     const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-        return ""; // <nil> BECOMES EMPTY STRING, DAZ RITE MFER.
-    }
+    if (isNaN(date.getTime())) { return "" } // <nil> BECOMES EMPTY STRING, DAZ RITE MFER.
     const options = {
         year: 'numeric',
         month: 'numeric',
@@ -189,7 +192,10 @@ function convertDate(dateStr) {
     };
     const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate.replace(',', '');
-}
+};
+// function UpdateTable() { // Update table
+
+// }
 document.getElementById("filterBtn").addEventListener("click", () => { // Filter function
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
@@ -205,12 +211,11 @@ document.getElementById("filterBtn").addEventListener("click", () => { // Filter
         rows[i].style.display = rowVisible ? "" : "none";
     }
 });
-// Popup Dialog
-popupDialogclose.onclick = function() {
+popupDialogclose.onclick = function() { // Popup Dialog
     popupDialog.style.display = "none";
-}
+};
 window.onclick = function(event) {
     if (event.target == popupDialog) {
         popupDialog.style.display = "none";
     }
-}
+};
