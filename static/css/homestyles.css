@@ -53,14 +53,14 @@ body {
   display: flex;
   padding: 10px 30px;
   text-decoration: none;
-  font-size: 22.5px;
   color: white;
   background-image: linear-gradient(#ff3b3b, #b20000);
   transition: 1s;
   box-shadow: 6px 6px 0 black;
-  transform: skewX(-15deg);
   border: none;
   cursor: pointer;
+  margin-top: 10px;
+  
 }
 #header #logOutButton:hover {
   transform: scale(1.05) skewX(-15deg);

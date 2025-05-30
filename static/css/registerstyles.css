@@ -3,10 +3,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f9f9f9;
+  background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   flex-direction: column;
+  color: #ffffff;
 }
 
 main {
@@ -23,10 +24,10 @@ main > div {
   width: 100%;
   margin: 32px 0 0 0;
   padding: 36px 32px 24px 32px;
-  background: #ffffff;
+  background: #404040;
   border-radius: 10px;
-  box-shadow: 0 4px 24px rgba(211, 47, 47, 0.2);
-  border: 1px solid #ddd;
+  box-shadow: 6px 6px 0 #000;
+  border: 1px solid #b20000;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -38,23 +39,24 @@ select {
   width: 100%;
   padding: 12px 14px;
   box-sizing: border-box;
-  border: 1.5px solid #ccc;
+  border: 2px solid #b20000;
   border-radius: 5px;
   font-size: 1rem;
-  background: #fafbfc;
+  background: #2b2b2b;
+  color: #ffffff;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 select:focus {
-  border-color: #d32f2f;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
+  border-color: #ff3b3b;
+  box-shadow: 0 0 5px #ff3b3b;
   outline: none;
-  background: #fff;
+  background: #333333;
 }
 
 input::placeholder {
-  color: #888;
+  color: #bbbbbb;
   font-size: 1rem;
   letter-spacing: 0.5px;
 }
@@ -62,30 +64,32 @@ input::placeholder {
 button#btnRegister {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(to bottom, #ff7979 5%, #d32f2f 100%);
+  background: linear-gradient(to bottom, #ff3b3b, #b20000);
   color: #ffffff;
-  border: 1px solid #ff2300;
+  border: 2px solid #b20000;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 3px 4px 0px 0px #e80909;
-  text-shadow: 0px 2px 10px #ff0909;
+  box-shadow: 4px 4px 0 #000000;
+  text-shadow: 0px 2px 10px #000000;
   transition: all 0.2s ease;
   margin-top: 16px;
 }
 
 button#btnRegister:hover:not(:disabled) {
-  background-color: #ff0000;
+  background-image: linear-gradient(90deg, #b20000 0%, #ff3b3b 40%, #ffb347 80%, #b20000 100%);
+  transform: scale(1.05);
 }
 
 button#btnRegister:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(5px);
+  background: linear-gradient(#b20000, #ff3b3b);
 }
 
 button#btnRegister:disabled {
-  background: #d1d5db;
-  color: #888;
+  background: #555555;
+  color: #999;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -93,14 +97,14 @@ button#btnRegister:disabled {
 h3 {
   text-align: center;
   font-size: 1.1rem;
-  color: #333;
+  color: #ff3b3b;
   margin: 0;
   padding: 0;
   font-weight: 500;
 }
 
 h3 b[style*="color:red"] {
-  color: #e53935 !important;
+  color: #ff3b3b !important;
   font-weight: 600;
   font-size: 1.02rem;
   display: block;
@@ -119,10 +123,11 @@ p {
   text-align: center;
   margin-top: 18px;
   font-size: 0.96rem;
+  color: #cccccc;
 }
 
 a {
-  color: #d32f2f;
+  color: #ff3b3b;
   text-decoration: none;
   font-weight: 500;
 }
@@ -135,10 +140,10 @@ footer {
   text-align: center;
   margin: 32px 0 12px 0;
   font-size: 0.88rem;
-  color: #666;
+  color: #aaaaaa;
 }
 footer a {
-  color: #d32f2f;
+  color: #ff3b3b;
   text-decoration: none;
 }
 
