@@ -2,10 +2,15 @@ html {
   scroll-behavior: smooth;
 }
 body {
+  margin: 0;
   background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
   background-attachment: fixed;
   font-family: sans-serif;
   color: #ffffff;
+}
+body {
+  padding: 0;
+  margin: 0;
 }
 /* Topmost Area, title name and company */
 #titleheader {
@@ -13,10 +18,10 @@ body {
   justify-content: space-between;
   align-items: center;
   margin: 0 0 0 0;
-  background: linear-gradient(90deg,rgba(30, 30, 30, 0) 65%, rgba(255, 255, 255, 1) 75%);
+  background: linear-gradient(90deg,rgba(0, 0, 0, 0) 65%, rgba(255, 255, 255, 1) 75%);
 }
 #titleheader h2 {
-  margin: 0;
+  margin: 0 0 0 15px;
   color: #ff3b3b;
   text-align: center;
   font-family: "Times New Roman", Times, serif;
@@ -41,10 +46,10 @@ body {
   justify-content: space-between;
   align-items: center;
   margin: 0 0 5px 0;
-  background: linear-gradient(90deg,#8a0000 95%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #8a0000 1.25%, #8a0000 93%, rgba(255, 255, 255, 0) 95%);
 }
 #header div h3 {
-  margin: 0;
+  margin: 0 0 0 1.3rem;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   display: flex;
   align-items: center;
@@ -52,7 +57,7 @@ body {
 }
 #header #logOutButton {
   display: flex;
-  margin-right: 6px;
+  margin-right: 5px;
   padding: 10px 30px;
   text-decoration: none;
   font-size: 22.5px;
@@ -76,7 +81,7 @@ body {
   display: flex;
   justify-content:flex-start;
   align-items:flex-start;
-  margin-top: 5px;
+  margin: 5px 0 0 15px;
 }
 #searchBar input {
   text-align: center;
@@ -131,12 +136,12 @@ button:active {
   transition: 100ms;
 }
 /* Table */
+.table-container {
+  margin: 10px 15px;
+}
 table {
-  margin: 10px 0 10px 0;
-  width: 100%;
   background-color: #3f3f3f;
   border: solid 5px #b20000;
-  margin-bottom: 20px;
   border-collapse: collapse;
 }
 th, td {
@@ -197,4 +202,22 @@ footer {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+/* Responsive Design */
+@media (max-width: 600px) {
+  * {
+    font-size: small;
+  }
+  input, button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  #buttoncheck {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  footer {
+    font-size: 0.8rem;
+  }
 }

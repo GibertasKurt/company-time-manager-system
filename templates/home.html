@@ -25,29 +25,30 @@
             <input type="text" id="search" placeholder="Search...">
             <button id="filterBtn">Filter</button>
         </div>
-        <table id="logTable" style="width:100%">
-            <tr>
-                <th>Department</th>
-                <th>Employee</th>
-                <th>Clock In</th>
-                <th>Break Start</th>
-                <th>Break End</th>
-                <th>Clock Out</th>
-                <th>Total Hours</th>
-            </tr>
-            {{range .ClockHistories}}
-            <tr>
-                <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
-                <td data-value="{{ .ID }}">{{.Employee.LastName}} {{.Employee.FirstName}}</td>
-                <td class="date">{{.ClockIn}}</td>
-                <td class="date">{{if .BreakStart}}{{.BreakStart}}{{end}}</td>
-                <td class="date">{{.BreakEnd}}</td>
-                <td class="date">{{.ClockOut}}</td>
-                <td>{{.TotalHours}}</td>
-            </tr>
-            {{end}}
-
-        </table>
+        <div class="table-container">
+            <table id="logTable" style="width:100%">
+                <tr>
+                    <th>Department</th>
+                    <th>Employee</th>
+                    <th>Clock In</th>
+                    <th>Break Start</th>
+                    <th>Break End</th>
+                    <th>Clock Out</th>
+                    <th>Total Hours</th>
+                </tr>
+                {{range .ClockHistories}}
+                <tr>
+                    <td id="departmentName" data-value='{{ .Employee.Departments.ID }}'>{{.Employee.Departments.Name}}</td>
+                    <td data-value="{{ .ID }}">{{.Employee.LastName}} {{.Employee.FirstName}}</td>
+                    <td class="date">{{.ClockIn}}</td>
+                    <td class="date">{{if .BreakStart}}{{.BreakStart}}{{end}}</td>
+                    <td class="date">{{.BreakEnd}}</td>
+                    <td class="date">{{.ClockOut}}</td>
+                    <td>{{.TotalHours}}</td>
+                </tr>
+                {{end}}
+            </table>
+        </div>
         <div id="buttoncheck">
             <button id="btnClockIn" data-value="clockIn">Clock In</button>
             <button id="btnbrkstrt" data-value="breakStart">Break Start</button>
@@ -78,6 +79,8 @@
     console.log("tookabreak: ", `{{.tookabreak}}`);
     let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null; // Admin status
     console.log("isAdmin: ", `{{.IsAdmin}}`);
+    let isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
+    let isBreakStarted = localStorage.getItem("breakstarted") == 0 || localStorage.getItem("breakstarted") == null ? false : true;
 </script>
 <script src="/static/js/home.js"></script>
 

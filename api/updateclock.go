@@ -38,9 +38,9 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 	switch clockAux {
 	case "clockIn":
 		fmt.Println("Case clockIn executed")
-		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_out IS NULL", employee.ID)
+		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_out IS NULL AND clock_in IS NOT NULL AND break_end IS NOT NULL", employee.ID)
 		if len(clockhistories) > 0 { // Cannot clock in if already clocked in
-			uadmin.Trail(uadmin.ERROR, "You are already clocked in.")
+			uadmin.Trail(uadmin.ERROR, "Clock in Failed: Cannot clock in, already clocked in or on break.")
 			return
 		}
 		fmt.Println("Current Date and Time: ", formattedTime)
