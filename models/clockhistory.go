@@ -26,7 +26,9 @@ func (c *ClockHistory) String() string {
 
 func (c *ClockHistory) Save() {
 	if c.ClockOut != nil { // breakStart - breakEnd
-		duration := c.ClockOut.Sub(c.ClockIn).Hours()
+		clockduration := c.ClockOut.Sub(c.ClockIn).Hours()
+		breakduration := c.BreakEnd.Sub(*c.BreakStart).Hours()
+		duration := clockduration - breakduration
 		c.TotalHours = math.Round(duration*100) / 100
 	}
 	uadmin.Save(c)
