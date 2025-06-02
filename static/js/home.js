@@ -2,6 +2,7 @@ const logTable = document.getElementById("logTable");
 let isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
 let isBreakStarted = localStorage.getItem("breakstarted") == 0 || localStorage.getItem("breakstarted") == null ? false : true;
 let clockInTime, breakStartTime, breakEndTime, clockOutTime;
+let currentRow = null;
 var popupDialog = document.getElementById("popupDialog");
 var popupDialogclose = document.getElementsByClassName("close")[0];
 const popupDialogText = document.getElementById("popupDialog-text");
@@ -26,6 +27,12 @@ btnClockIn.addEventListener("click", () => {
     }
     isClockedIn = true;
     clockInTime = new Date();
+    currentRow = logTable.insertRow();
+    departmentName = document.getElementById("departmentName");
+    console.log("Department Name: ", departmentName.getAttribute("data-value"));
+    currentRow.insertCell(0).innerHTML = departmentName.innerHTML;
+    currentRow.insertCell(1).innerHTML = `{{.Username}}`;
+    currentRow.insertCell(2).innerHTML = clockInTime.toLocaleString();
     let formData = new FormData()
     formData.append("data_value", btnClockIn.getAttribute("data-value"))
     const url = "/api/updateclock";
@@ -62,6 +69,11 @@ btnbrkstrt.addEventListener("click", () => {
     if (isBreakStarted) {
         popupDialog.style.display = "block";
         popupDialogText.innerHTML = "You are already taking a break.";
+        return;
+    }
+    if (tookabreak) {
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You have already taken a break today.";
         return;
     }
     isBreakStarted = true;
@@ -105,6 +117,7 @@ btnbrkend.addEventListener("click", () => {
         return;
     }
     isBreakStarted = false;
+    tookabreak = true
     breakEndTime = new Date();
     let formData = new FormData()
     formData.append("data_value", btnbrkend.getAttribute("data-value"))
@@ -137,6 +150,11 @@ btnClockOut.addEventListener("click", () => {
     if (!isClockedIn) {
         popupDialog.style.display = "block";
         popupDialogText.innerHTML = "You are already clocked out.";
+        return;
+    }
+    if (isBreakStarted) {
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "You cannot clock out without ending your break first.";
         return;
     }
     isBreakStarted = false
@@ -193,9 +211,6 @@ function convertDate(dateStr) {
     const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate.replace(',', '');
 };
-// function UpdateTable() { // Update table
-
-// }
 document.getElementById("filterBtn").addEventListener("click", () => { // Filter function
     const filterValue = document.getElementById("search").value.toLowerCase();
     const rows = logTable.getElementsByTagName("tr");
@@ -213,9 +228,11 @@ document.getElementById("filterBtn").addEventListener("click", () => { // Filter
 });
 popupDialogclose.onclick = function() { // Popup Dialog
     popupDialog.style.display = "none";
+    location.reload();
 };
 window.onclick = function(event) {
     if (event.target == popupDialog) {
         popupDialog.style.display = "none";
+        location.reload();
     }
 };

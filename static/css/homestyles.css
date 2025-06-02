@@ -52,24 +52,23 @@ body {
 }
 #header #logOutButton {
   display: flex;
+  margin-right: 6px;
   padding: 10px 30px;
   text-decoration: none;
+  font-size: 22.5px;
   color: white;
   background-image: linear-gradient(#ff2b2b, #cd0000);
   transition: 1s;
   box-shadow: 6px 6px 0 black;
+  transform: skewX(-15deg);
   border: none;
   cursor: pointer;
-  margin-top: 10px;
-  
 }
 #header #logOutButton:hover {
   padding-right: 45px;
-  /* transform: scale(1.05) skewX(-15deg); */
 }
 #header #logOutButton:active {
   letter-spacing: 2.5px;
-  /* transform: translateY(5px) skewX(-15deg); */
   transition: 100ms;
 }
 /* searchBar */

@@ -68,14 +68,16 @@
     </footer>
 </body>
 <script>
+    let empid = '{{.EmployeeID}}'; // Employee ID
     console.log("empID: ", `{{.EmployeeID}}`);
-    let empid = '{{.EmployeeID}}';
+    let current_id = '{{.Current.ID}}'; // Current clock in ID
     console.log("currentID: ", `{{.Current.ID}}`);
-    let current_id = '{{.Current.ID}}';
+    let breakstarted_id = '{{.onbreak.ID}}'; // Break started ID
     console.log("onbreakID: ", `{{.onbreak.ID}}`);
-    let breakstarted_id = '{{.onbreak.ID}}';
+    let tookabreak = '{{.tookabreak}}' ? true : null; // Took a break status
+    console.log("tookabreak: ", `{{.tookabreak}}`);
+    let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null; // Admin status
     console.log("isAdmin: ", `{{.IsAdmin}}`);
-    let isAdmin = '{{.IsAdmin}}' > 0 ? '{{.IsAdmin}}' : null;
 </script>
 <script src="/static/js/home.js"></script>
 

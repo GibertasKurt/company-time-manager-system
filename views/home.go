@@ -46,7 +46,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 
 	latest := []models.ClockHistory{}
 	uadmin.AdminPage("id", false, 0, 1, &latest, "employee_id = ? AND clock_out IS NULL", employee.ID)
-
 	if len(latest) > 0 {
 		uadmin.Preload(&latest[0])
 		c["Current"] = latest[0]
@@ -54,10 +53,16 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) map[string]interface{} 
 
 	onbreak := []models.ClockHistory{} // CHECKS IF THE USER IS ALREADY ON BREAK, THEY REFRESH/RELOGIN, STILL ON BREAK.
 	uadmin.AdminPage("id", false, 0, 1, &onbreak, "employee_id = ? AND break_start IS NOT NULL AND break_end IS NULL AND clock_out IS NULL", employee.ID)
-
 	if len(onbreak) > 0 {
 		uadmin.Preload(&onbreak[0])
 		c["onbreak"] = onbreak[0]
+	}
+
+	tookabreak := []models.ClockHistory{} // CHECKS IF THE USER TOOK A BREAK, THEY REFRESH/RELOGIN, STILL TOOK A BREAK.
+	uadmin.AdminPage("id", false, 0, 1, &tookabreak, "employee_id = ? AND break_start IS NOT NULL AND break_end IS NOT NULL AND clock_out IS NULL", employee.ID)
+	if len(tookabreak) > 0 {
+		uadmin.Preload(&tookabreak[0])
+		c["tookabreak"] = tookabreak[0]
 	}
 
 	return c
