@@ -1,29 +1,24 @@
+html {
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+}
 body {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
+  height: 100vh;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: #ffffff;
 }
-
+/* Container */
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.form-container,
-main > div {
   max-width: 380px;
   width: 100%;
-  margin: 32px 0 0 0;
-  padding: 36px 32px 24px 32px;
+  padding: 12px 15px;
+  margin: 10px 0;
   background: #404040;
   border-radius: 10px;
   box-shadow: 6px 6px 0 #000;
@@ -33,9 +28,11 @@ main > div {
   align-items: stretch;
   gap: 14px;
 }
-
-input,
-select {
+main h1, main p {
+  text-align: center;
+}
+/* Input fields */
+input, select {
   width: 100%;
   padding: 12px 14px;
   box-sizing: border-box;
@@ -45,127 +42,70 @@ select {
   background: #2b2b2b;
   color: #ffffff;
   transition: border-color 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
 }
-
-input:focus,
-select:focus {
-  border-color: #ff3b3b;
-  box-shadow: 0 0 5px #ff3b3b;
-  outline: none;
-  background: #333333;
-}
-
 input::placeholder {
-  color: #bbbbbb;
+  color: #cccccc;
   font-size: 1rem;
   letter-spacing: 0.5px;
 }
-
-button#btnRegister {
+/* Buttons */
+button {
   width: 100%;
-  padding: 12px;
-  background: linear-gradient(to bottom, #ff3b3b, #b20000);
-  color: #ffffff;
-  border: 2px solid #b20000;
+  padding: 12px 25%;
   border-radius: 5px;
-  font-size: 1rem;
-  font-weight: bold;
   cursor: pointer;
-  box-shadow: 4px 4px 0 #000000;
-  text-shadow: 0px 2px 10px #000000;
-  transition: all 0.2s ease;
-  margin-top: 16px;
+  color: #ffffff;
+  background-image: linear-gradient(#ff3b3b, #b20000);
+  border: 3px solid #b20000;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  transition: all 0.5s ease, background 0.3s, transform 0.3s;
+  box-shadow: 6px 6px 0 black;
+  margin-top: 15px;
 }
-
-button#btnRegister:hover:not(:disabled) {
-  background-image: linear-gradient(90deg, #b20000 0%, #ff3b3b 40%, #ffb347 80%, #b20000 100%);
+button:hover {
+  background-image: linear-gradient(90deg, #b20000 0%, #ff3b3b 40%, #b20000 100%);
   transform: scale(1.05);
 }
-
-button#btnRegister:active:not(:disabled) {
+button:active {
+  background-image: linear-gradient(#b20000, #ff3b3b);
   transform: translateY(5px);
-  background: linear-gradient(#b20000, #ff3b3b);
+  transition: 100ms;
 }
-
-button#btnRegister:disabled {
-  background: #555555;
-  color: #999;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-h3 {
+/* login link */
+.linklogin, .linklogin a {
   text-align: center;
-  font-size: 1.1rem;
-  color: #ff3b3b;
-  margin: 0;
-  padding: 0;
-  font-weight: 500;
-}
-
-h3 b[style*="color:red"] {
-  color: #ff3b3b !important;
-  font-weight: 600;
-  font-size: 1.02rem;
-  display: block;
-  margin: 8px 0 0 0;
-}
-
-h3 b[style*="color:green"] {
-  color: #43a047 !important;
-  font-weight: 600;
-  font-size: 1.02rem;
-  display: block;
-  margin: 8px 0 0 0;
-}
-
-p {
-  text-align: center;
-  margin-top: 18px;
-  font-size: 0.96rem;
-  color: #cccccc;
-}
-
-a {
-  color: #ff3b3b;
+  color: white;
   text-decoration: none;
-  font-weight: 500;
 }
-
-a:hover {
+.linklogin a:hover {
   text-decoration: underline;
 }
-
+/* footer */
 footer {
   text-align: center;
-  margin: 32px 0 12px 0;
-  font-size: 0.88rem;
-  color: #aaaaaa;
+  margin-top: 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
-footer a {
-  color: #ff3b3b;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
 /* Responsive Design */
 @media (max-width: 600px) {
-  .form-container,
-  main > div {
-    padding: 18px 8px 16px 8px;
-    max-width: 98vw;
+  main {
+    width: 90%;
+    padding: 10px;
   }
-
-  input,
-  select,
-  button#btnRegister {
-    font-size: 0.98rem;
+  input, select, button {
+    font-size: 0.9rem;
+    padding: 10px;
   }
-
+  button {
+    padding: 10px 20%;
+  }
   footer {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 }

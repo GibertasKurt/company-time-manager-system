@@ -22,16 +22,16 @@
     <main>
         <div>
             <div>
-                <img src="/static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.png" class="loginpic">
-                <h1 class="hd1">Login to Time Management </h1>
+                <img src="/static/dashboardmenu_Icon_UQFybnln52/309587734_549724810289534_5207094967809963324_n.png">
+                <h2>Login to Time Management </h2>
             </div>
             <form method="POST">
                 <input type="text" name="username" id="username" placeholder="Username" required />
                 <input type="password" name="password" id="password" placeholder="Password" required />
                 <button type="submit" id="btnLogin">Log In</button>
             </form>
-            <a href="/register/"><p class="clkregister">No account? Register!</p></a>
-            <h3><b style="color:red">{{.Err}}</b></h3>
+            <p class="registerlink">No account? <a href="/register/">Register!</a></p>
+            <h3>{{.Err}}</h3>
         </div>
     </main>
     
