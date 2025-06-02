@@ -6,7 +6,7 @@ var popupDialogclose = document.getElementsByClassName("close")[0];
 const popupDialogText = document.getElementById("popupDialog-text");
 console.log("isClockedIn: ", isClockedIn);
 console.log("isBreakStarted: ", isBreakStarted);
-console.log("tookabreak: ", tookabreak);``
+console.log("tookabreak: ", tookabreak);
 function getCookie(name) { //// Important backend stuff
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
