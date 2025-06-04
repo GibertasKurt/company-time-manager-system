@@ -68,7 +68,7 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case clockOut executed")
 		uadmin.Filter(&clockhistories, "employee_id = ? AND (clock_in IS NULL OR (break_start IS NOT NULL AND break_end IS NULL))", employee.ID)
 		if len(clockhistories) > 0 { // Cannot clock out if not clocked in
-			uadmin.Trail(uadmin.ERROR, "Clock out Failed.")
+			uadmin.Trail(uadmin.ERROR, "Clock out Failed: Not clocked in or on break.")
 			return
 		}
 		fmt.Println("Current Date and Time: ", formattedTime)
@@ -83,7 +83,7 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Case breakStart executed")
 		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_in IS NULL", employee.ID)
 		if len(clockhistories) > 0 { // Cannot start break if not clocked in
-			uadmin.Trail(uadmin.ERROR, "Break start Failed.")
+			uadmin.Trail(uadmin.ERROR, "Break start Failed: not clocked in.")
 			return
 		}
 		fmt.Println("Current Date and Time: ", formattedTime)
@@ -99,7 +99,7 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Current Date and Time: ", formattedTime)
 		uadmin.Filter(&clockhistories, "employee_id = ? AND (clock_in IS NULL OR break_start IS NULL) AND clock_out IS NULL", employee.ID)
 		if len(clockhistories) > 0 { // Cannot end break if not on break
-			uadmin.Trail(uadmin.ERROR, "Break end Failed.")
+			uadmin.Trail(uadmin.ERROR, "Break end Failed: Cannot end break, not on break or not clocked in.")
 			return
 		}
 		clockhistory := []models.ClockHistory{}
