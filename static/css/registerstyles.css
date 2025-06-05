@@ -2,30 +2,22 @@ html {
   box-sizing: border-box;
   font-family: 'Raleway', sans-serif;
 }
-body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
-  height: 100vh;
+main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 90vh;
   color: #ffffff;
 }
 /* Container */
-main {
+main .container {
   max-width: 380px;
-  width: 100%;
   padding: 12px 15px;
-  margin: 10px 0;
   background: #404040;
   border-radius: 10px;
   box-shadow: 6px 6px 0 #000;
   border: 1px solid #b20000;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
   gap: 14px;
 }
 main h1, main p {
@@ -82,27 +74,4 @@ button:active {
 }
 .linklogin a:hover {
   text-decoration: underline;
-}
-/* footer */
-footer {
-  text-align: center;
-  margin-top: 20px;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-/* Responsive Design */
-@media (max-width: 600px) {
-  main {
-    width: 90%;
-    padding: 10px;
-  }
-  input, select, button {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-  footer {
-    font-size: 0.8rem;
-  }
 }

@@ -2,7 +2,7 @@ const logTable = document.getElementById("logTable");
 let clockInTime, breakStartTime, breakEndTime, clockOutTime;
 let currentRow = null;
 var popupDialog = document.getElementById("popupDialog");
-var popupDialogclose = document.getElementsByClassName("close")[0];
+var popupDialogclose = document.getElementById("closePopup");
 const popupDialogText = document.getElementById("popupDialog-text");
 console.log("isClockedIn: ", isClockedIn);
 console.log("isBreakStarted: ", isBreakStarted);
@@ -237,5 +237,6 @@ window.onclick = function(event) {
         location.reload();
     }
 };
+window.scrollTo(0, document.body.scrollHeight);
 isClockedIn = localStorage.getItem("recentlogin") == 0 || localStorage.getItem("recentlogin") == null ? false : true;
 isBreakStarted = localStorage.getItem("breakstarted") == 0 || localStorage.getItem("breakstarted") == null ? false : true;

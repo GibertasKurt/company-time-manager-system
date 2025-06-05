@@ -1,0 +1,33 @@
+/* styles.css is for keeping repetitive styles in a single file */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(145deg, #1e1e1e, #3d3d3d);
+  background-attachment: fixed;
+  font-family: sans-serif;
+  color: #ffffff;
+}
+/* footer */
+footer {
+  text-align: center;
+  font-size: smaller;
+  margin-top: 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+/* Responsive Design */
+@media (max-width: 800px) {
+  * {
+    font-size: small;
+  }
+  input, select, button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  footer {
+    font-size: 0.8rem;
+  }
+}
