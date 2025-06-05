@@ -70,6 +70,7 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 		Email:     reqBody.Username,
 		FirstName: reqBody.FirstName,
 		LastName:  reqBody.LastName,
+		Active:    true,
 	}
 
 	if err := uadmin.Save(&user); err != nil {

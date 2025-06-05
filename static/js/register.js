@@ -4,16 +4,14 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-document.getElementById('currentYear').textContent = new Date().getFullYear();
-
 document.getElementById("btnRegister").addEventListener("click", () => {
     const logData = {
-        first_name: document.querySelector("#first_name").value,
-        last_name: document.querySelector("#last_name").value,
-        username: document.querySelector("#username").value,
-        password: document.querySelector("#password").value,
-        email: document.querySelector("#email").value,
-        department_id: document.querySelector("#department_id").value,
+        first_name: document.getElementById("first_name").value,
+        last_name: document.getElementById("last_name").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        email: document.getElementById("email").value,
+        department_id: document.getElementById("department_id").value,
     };
 
     console.log("Log data:", JSON.stringify(logData));
@@ -34,7 +32,6 @@ document.getElementById("btnRegister").addEventListener("click", () => {
         })
         .then(data => {
             console.log("Server response:", data);
-            // Handle success (e.g., redirect or show message)
         })
         .catch(error => {
             console.error("Fetch error:", error);
