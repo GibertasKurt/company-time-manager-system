@@ -95,8 +95,8 @@ func UpdateClockAPIHandler(w http.ResponseWriter, r *http.Request) {
 	case "breakEnd":
 		fmt.Println("Case breakEnd executed")
 		fmt.Println("Current Date and Time: ", formattedTime)
-		uadmin.Filter(&clockhistories, "employee_id = ? AND (clock_in IS NULL OR break_start IS NULL OR break_end IS NOT NULL)", employee.ID)
-		if len(clockhistories) > 0 { // Cannot end break if not on break or not clocked in
+		uadmin.Filter(&clockhistories, "employee_id = ? AND clock_in IS NOT NULL AND break_start IS NOT NULL AND break_end IS NULL AND clock_out IS NULL", employee.ID)
+		if len(clockhistories) == 0 { // Cannot end break if not on break or not clocked in
 			uadmin.Trail(uadmin.ERROR, "Break end Failed: Cannot end break, not on break or not clocked in.")
 			return
 		}
