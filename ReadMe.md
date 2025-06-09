@@ -7,36 +7,33 @@ The benefits of implementation of the Company Time Manager System are considerab
 
 ## Features
 - Working registration and login system
-- Admin dashboard for managing employees
+- Optional Break Time feature
 - Employee time tracking
-- Employee attendance management
 - Responsive design for mobile and desktop
+- Admins can see all employees' time records
 
 ## Installation
-
 Requirements:
 - [Go language installed](https://go.dev/doc/install)
 - [Uadmin installed](https://github.com/uadmin/uadmin?tab=readme-ov-file#installation)
 
 ```bash
+# Clone the repository
 git clone https://github.com/kurt/company-time-manager-system.git
+# Change directory to the project folder
 cd company-time-manager-system
-# Add further installation steps here
-
-# Build and run the application
+# Build and run it
 go build; ./company-time-manager-system
 ```
 
 ## Usage
-
+When making changes to the code, specifically amy go files, you have to use the following command to build and run the application:
 ```bash
-# Example usage instructions
+go build; ./company-time-manager-system
 ```
-
-## License
-Specify the license here.
+There is no need to run this when making changes to HTML, CSS, or JavaScript files. It only requires the user to press CTRL+SHIFT+F5 to make the application to take these changes.
 
 ## Contact
 - [kurt.gibertas1337@gmail.com](mailto:kurt.gibertas1337@gmail.com)
-- +63 991 432 0112
+- Phone number: +63 991 432 0112
 - [Kurt's Facebook](https://www.facebook.com/Zycronl/)
