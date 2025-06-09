@@ -1,3 +1,6 @@
+main {
+  height: 90vh;
+}
 /* Topmost Area, title name and company */
 #titleheader {
   display: flex;
