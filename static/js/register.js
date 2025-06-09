@@ -1,3 +1,6 @@
+var popupDialog = document.getElementById("popupDialog");
+var popupDialogclose = document.getElementById("closePopup");
+const popupDialogText = document.getElementById("popupDialog-text");
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -13,6 +16,13 @@ document.getElementById("btnRegister").addEventListener("click", () => {
         email: document.getElementById("email").value,
         department_id: document.getElementById("department_id").value,
     };
+    for (const key in logData) {
+        if (!logData[key]) {
+            popupDialog.style.display = "block";
+            popupDialogText.innerHTML = "Please fill in all fields.";
+            return;
+        }
+    }
 
     console.log("Log data:", JSON.stringify(logData));
 
@@ -40,3 +50,13 @@ document.getElementById("btnRegister").addEventListener("click", () => {
 
 
 });
+popupDialogclose.onclick = function() { // Popup Dialog
+    popupDialog.style.display = "none";
+    location.reload();
+};
+window.onclick = function(event) {
+    if (event.target == popupDialog) {
+        popupDialog.style.display = "none";
+        location.reload();
+    }
+};
