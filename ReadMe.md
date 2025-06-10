@@ -31,7 +31,7 @@ When making changes to the code, specifically amy go files, you have to use the 
 ```bash
 go build; ./company-time-manager-system
 ```
-There is no need to run this when making changes to HTML, CSS, or JavaScript files. It only requires the user to press CTRL+SHIFT+F5 to make the application to take these changes.
+There is no need to run this when making changes to HTML, CSS, or JavaScript files. It only requires the user to perform a hard refresh (via CTRL+F5 or CTRL+SHIFT+F5) on the website to make the application take these changes.
 ## Contact
 - [kurt.gibertas1337@gmail.com](mailto:kurt.gibertas1337@gmail.com)
 - Phone number: +63 991 432 0112
