@@ -13,7 +13,7 @@ main {
 /* Container */
 main .container {
   max-width: 380px;
-  padding: 12px 15px;
+  padding: 10px 10px;
   background: #404040;
   border-radius: 10px;
   box-shadow: 6px 6px 0 #000;
@@ -22,6 +22,14 @@ main .container {
 }
 main h1, main p {
   text-align: center;
+}
+h1 {
+  font-size: 3em;
+  margin: 10px 0 5px 0;
+}
+.container div p {
+  font-size: 1.2em;
+  margin: 0 0 10px 0;
 }
 /* Input fields */
 input, select {
@@ -67,11 +75,12 @@ button:active {
   transition: 100ms;
 }
 /* login link */
-.linklogin, .linklogin a {
+.linklogin {
   text-align: center;
-  color: white;
   text-decoration: none;
+  margin: 15px 0 10px 0;
 }
-.linklogin a:hover {
-  text-decoration: underline;
+.linklogin a {
+  color: rgb(0, 200, 255);
+  font-weight: bold;
 }
