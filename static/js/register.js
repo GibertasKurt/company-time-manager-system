@@ -51,12 +51,8 @@ document.getElementById("btnRegister").addEventListener("click", () => {
 
 });
 popupDialogclose.onclick = function() { // Popup Dialog
-    popupDialog.style.display = "none";
-    location.reload();
+    popupDialog.style.display = "none"
 };
 window.onclick = function(event) {
-    if (event.target == popupDialog) {
-        popupDialog.style.display = "none";
-        location.reload();
-    }
+    if (event.target == popupDialog) { popupDialog.style.display = "none" }
 };
