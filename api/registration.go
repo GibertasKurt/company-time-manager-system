@@ -65,22 +65,23 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Save user
 	user := uadmin.User{
-		Username:  reqBody.Username,
-		Password:  reqBody.Password,
-		Email:     reqBody.Username,
-		FirstName: reqBody.FirstName,
-		LastName:  reqBody.LastName,
-		Active:    true,
+		Username:    reqBody.Username,
+		Password:    reqBody.Password,
+		Email:       reqBody.Username,
+		FirstName:   reqBody.FirstName,
+		LastName:    reqBody.LastName,
+		Active:      true,
+		UserGroupID: 1,
 	}
-
-	if err := uadmin.Save(&user); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		uadmin.ReturnJSON(w, r, map[string]any{
-			"status":  "error",
-			"err_msg": "Failed to save user",
-		})
-		return
-	}
+	user.Save()
+	// if err := uadmin.Save(&user); err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	uadmin.ReturnJSON(w, r, map[string]any{
+	// 		"status":  "error",
+	// 		"err_msg": "Failed to save user",
+	// 	})
+	// 	return
+	// }
 
 	employee := models.Employee{
 		UserID:        user.ID,
