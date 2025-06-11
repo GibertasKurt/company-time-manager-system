@@ -13,7 +13,7 @@ main {
 /* Container */
 main .container {
   max-width: 380px;
-  padding: 10px 10px;
+  padding: 12px 20px;
   background: #404040;
   border-radius: 10px;
   box-shadow: 6px 6px 0 #000;
@@ -30,19 +30,6 @@ h1 {
 .container div p {
   font-size: 1.2em;
   margin: 0 0 10px 0;
-}
-/* Input fields */
-input, select {
-  width: 100%;
-  padding: 12px 14px;
-  box-sizing: border-box;
-  border: 2px solid #b20000;
-  border-radius: 5px;
-  font-size: 1rem;
-  background: #2b2b2b;
-  color: #ffffff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  margin-top: 10px;
 }
 input::placeholder {
   color: #cccccc;
@@ -81,6 +68,32 @@ button:active {
   margin: 15px 0 10px 0;
 }
 .linklogin a {
-  color: rgb(0, 200, 255);
-  font-weight: bold;
+  font-weight: bolder;
+  background: linear-gradient(90deg, rgb(0,200,255), #fff, rgb(0,200,255));
+  background-size: 200% auto;
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 2s linear infinite;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  position: relative;
+}
+.linklogin a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgb(0,200,255), #fff, rgb(0,200,255));
+  background-size: 200% auto;
+  animation: shine 2s linear infinite;
+  border-radius: 1px;
+  pointer-events: none;
+}
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
 }

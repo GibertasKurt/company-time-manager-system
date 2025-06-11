@@ -23,6 +23,12 @@ document.getElementById("btnRegister").addEventListener("click", () => {
             return;
         }
     }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(logData.email)) {
+        popupDialog.style.display = "block";
+        popupDialogText.innerHTML = "Please enter a valid email address.";
+        return;
+    }
 
     console.log("Log data:", JSON.stringify(logData));
 

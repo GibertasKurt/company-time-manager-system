@@ -9,6 +9,24 @@ body {
   color: #ffffff;
   height: 100vh;
 }
+/* Input fields */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 2px solid #b20000;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #2b2b2b;
+  color: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+input::placeholder {
+  color: #cccccc;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
 /* Popup */
 #popupDialog {
   display: none;
