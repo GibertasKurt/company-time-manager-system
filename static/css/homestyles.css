@@ -28,7 +28,7 @@ main {
   justify-content: space-between;
   align-items: center;
   margin: 0 0 5px 0;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #8a0000 1.25%, #8a0000 93%, rgba(255, 255, 255, 0) 95%);
+  background: #8a0000 93%;
 }
 #header div h3 {
   margin: 0 0 0 1.3rem;
