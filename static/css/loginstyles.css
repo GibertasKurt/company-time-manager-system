@@ -68,7 +68,7 @@ button:active {
 /* register link */
 .registerlink {
   text-align: center;
-  color: white;
+  margin: 15px 0 10px 0;
 }
 .registerlink a {
   font-weight: bolder;

@@ -10,7 +10,7 @@ body {
   height: 100vh;
 }
 /* Input fields */
-input {
+input, select {
   width: 100%;
   padding: 12px 14px;
   box-sizing: border-box;

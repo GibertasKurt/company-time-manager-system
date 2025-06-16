@@ -24,17 +24,12 @@ main h1, main p {
   text-align: center;
 }
 h1 {
-  font-size: 3em;
+  font-size: 2em;
   margin: 10px 0 5px 0;
 }
 .container div p {
   font-size: 1.2em;
   margin: 0 0 10px 0;
-}
-input::placeholder {
-  color: #cccccc;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
 }
 /* Buttons */
 button {
