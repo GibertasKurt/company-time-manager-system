@@ -29,7 +29,7 @@ main img {
   width: 60%;
   margin: 0;
 }
-main h3 {
+main .container div h3 {
   color: #ffffff;
   text-align: center;
   margin: 10px 0 10px;
@@ -101,10 +101,10 @@ button:active {
   }
 }
 /* Error text */
-h3 {
+.errormsg {
   color: red;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  margin-top: 10px;
+  margin: 10px 0;
 }
