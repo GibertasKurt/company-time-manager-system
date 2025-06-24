@@ -10,7 +10,7 @@
   color: #ff3b3b;
   text-align: center;
   font-family: "Times New Roman", Times, serif;
-  font-size: 2.5em;
+  font-size: clamp(1rem, 2.5vw, 3rem);
   text-shadow: 1px 1px 10px #000000;
 }
 #titleheader img {
@@ -57,7 +57,7 @@
   display: flex;
   justify-content:flex-start;
   align-items:center;
-  margin: 5px 0 0 3em;
+  margin:  0 0 15px 0;
 }
 #searchBar input {
   text-align: center;
@@ -115,6 +115,7 @@ button:active {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  font-size: clamp(8px, 2.5vw, 18px);
 }
 table {
   border: solid 5px #b20000;
@@ -130,13 +131,15 @@ tr:nth-child(even) { background-color: #444444; }
 tr:nth-child(odd) { background-color: #555555; }
 tr:hover { background-color: #666666; }
 /* Responsive Design */
-@media (max-width: 630px) {
+@media (max-width: 900px) {
+  .table-container {
+    align-items: center;
+  }
   table {
     table-layout: fixed;
     width: 700px;
     max-width: 100%;
     border-collapse: collapse;
-    font-size: 0.85em;
     word-break: break-word;
   }
 }
@@ -149,16 +152,8 @@ tr:hover { background-color: #666666; }
     letter-spacing: 0;
     transition: 100ms;
   }
-  #searchBar {
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    margin: 5px 3em 0 3em;
-  }
   .table-container {
     flex-direction: column;
-    align-items: center;
-    overflow-x: auto;
   }
   table {
     width: 100%;
